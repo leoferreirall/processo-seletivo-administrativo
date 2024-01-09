@@ -1,0 +1,69 @@
+<section class="content-header">
+   <div class="container-fluid">
+      <div class="col-md-12">
+       <h1>Relatório Auditoria</h1>
+       <hr>
+      </div>
+   </div>
+ </section>
+ <section class="content">
+   <div class="container-fluid">
+      <form #formReport="ngForm" name="formReport" (ngSubmit)="onSubmitPesquisar(report)">               
+      <div class="form-row">        
+         <div class="form-group col-md-2">
+            <label for="cpf">CPF:</label>
+            <input [mask]="cpfmask" class="form-control" id="cpf" name="cpf" [(ngModel)]="report.cpf">
+         </div>
+         <div class="form-group col-2">
+            <label for="rg">RG:</label>
+            <input type="text" class="form-control" id="rg" name="rg" [(ngModel)]="report.rg" />
+         </div>
+         <div class="form-group col-2">
+            <label for="celular">Celular:</label>
+            <input [mask]="telmask" type="text" class="form-control" id="celular" name="celular" [(ngModel)]="report.celular" />
+         </div>    
+         <div class="form-group col-6">
+           <label for="nome">Nome:</label>
+           <input type="text" class="form-control" id="nome" name="nome" [(ngModel)]="report.nome" />
+        </div> 
+         <div class="offset-lg-10 col-md-2">
+           <button type="submit" class="btn btn-dark btn-block">Pesquisar</button>
+         </div>
+     </div>
+      </form>
+   </div>
+ </section>
+ <section class="content">
+   <hr>
+   <div class="row">
+      <div class="col-md-12">
+         <table class="table table-striped table-bordered table-sm row-border hover">
+            <thead>
+               <tr>
+                  <th width="30" >Ação</th>
+                  <th width="50">Cod.</th>
+                  <th>Nome</th>
+                  <th width="150">CPF</th>
+                  <th width="150">RG</th>
+                  <th width="200">Data Nascimento</th>
+                  <th width="100">Sexo</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr *ngFor="let item of data">
+                  <td class=" text-left" style="text-align: center!important;">
+                     <a [routerLink]="['trilha', item.codPsUsuario]"><i class="fa fa-list-alt"></i></a>
+                  </td>
+                  <td>{{item.codPsUsuario}}</td>
+                  <td>{{item.nome}}</td>
+                  <td>{{item.cpf}}</td>
+                  <td>{{item.rg}}</td>
+                  <td>{{item.dtNascimento | date : 'dd/MM/yyyy'}}</td>
+                  <td>{{item.sexo == 'M' ? 'Masculino' : 'Feminino'}}</td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+   </div>
+ </section>
+ 

@@ -1,0 +1,186 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="col-md-12">
+      <h1>Plano de campanha</h1>
+      <hr>
+    </div>
+  </div>
+</section>
+<section class="content">
+  <div class="container-fluid">
+    <form #formPlano="ngForm" name="formPlano" (ngSubmit)="onSubmitFormPlano(plano)">
+      <div class="form-row">
+        <div class="form-group col-md-1">
+          <label for="codColigada">Coligada:</label>
+          <input class="form-control" id="codColigada" name="codColigada" readonly [value]="plano.codColigada">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="tipoCurso">Tipo de curso:</label>
+          <select class="form-control" id="tipoCurso" name="tipoCurso" [disabled]="listaTipoCurso.length == 0" [(ngModel)]="plano.tipoCurso"
+            (change)="onChangeTipoCurso(plano.tipoCurso.codColigada, plano.tipoCurso.codTipoCurso)">
+            <option *ngFor="let item of listaTipoCurso" [ngValue]="item">{{item.descricaoTipoCurso}}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="codFilial">Unidade:</label>
+          <select class="form-control" id="codFilial" name="codFilial" [disabled]="listaUnidades.length == 0" [(ngModel)]="plano.codFilial"
+            (change)="onChangeUnidade(plano.codColigada, plano.codTipoCurso, plano.codFilial)">
+            <option *ngFor="let item of listaUnidades" [ngValue]="item.codFilial">{{item.descricaoFilial}}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="idPerLet">Período letivo:</label>
+          <select class="form-control" id="idPerLet" name="idPerLet" [disabled]="listaPeriodoLetivo.length == 0"
+            [(ngModel)]="plano.idPerLet" (change)="onChangePeriodoLetivo(plano.codColigada, plano.codTipoCurso, plano.idPerLet)">
+            <option *ngFor="let item of listaPeriodoLetivo" [ngValue]="item.idPerLet">{{item.idPerLet}} - {{item.descricaoPeriodoLetivo}}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="nome">Nome da campanha:</label>
+          <input class="form-control" id="nome" name="nome" [(ngModel)]="plano.nome">
+        </div>
+        <div class="form-group col-md-3">
+          <label for="dtInicio">Data Inicial:</label>
+          <input type="date" class="form-control" id="dtInicio" name="dtInicio" [(ngModel)]="plano.dtInicio">
+        </div>
+        <div class="form-group col-md-3">
+          <label for="dtFim">Data Final:</label>
+          <input type="date" class="form-control" id="dtFim" name="dtFim" [(ngModel)]="plano.dtFim">
+        </div>
+        <div class="form-group col-md-2">
+          <label style="margin-bottom: 20px;">Status:</label>
+          <br>
+          <div class="form-check-inline">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="status" [(ngModel)]="plano.status" [value]="true" checked>Ativo
+            </label>
+          </div>
+          <div class="form-check-inline">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="status" [(ngModel)]="plano.status" [value]="false">Inativo
+            </label>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <hr>
+        </div>
+        <div class="col-md-12">
+          <h5>Cadastro de parcelas do plano:</h5>
+        </div>
+        <div class="form-group col-md-1">
+          <label for="parcela">Parcela:</label>
+          <input type="number" class="form-control" id="parcela" name="parcela" [(ngModel)]="parcela.parcela">
+        </div>
+        <div class="form-group col-md-5">
+          <label for="servico">Serviço:</label>
+          <select class="form-control" id="servico" name="servico" [disabled]="listaServicos.length == 0" [(ngModel)]="parcela.servico"
+            (change)="onChangeServico(parcela.servico)">
+            <option value=""></option>
+            <option *ngFor="let item of listaServicos" [ngValue]="item">{{item.codServico}} - {{item.descricaoServico}}
+            </option>
+          </select>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="banco">Banco:</label>
+          <input type="text" class="form-control" id="banco" name="banco" [(ngModel)]="parcela.banco" readonly>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="bolsas">Bolsa:</label>
+          <div class="select2-orange">
+          <select class="form-control select2 select2-hidden-accessible" [disabled]="listaBolsas.length == 0" data-dropdown-css-class="select2-orange" style="width: 100%;" id="bolsas" name="bolsas"
+            multiple>
+            <option *ngFor="let item of listaBolsas" [value]="item.codBolsa">{{item.codBolsa}} - {{item.descricaoBolsa}}</option>
+          </select>
+        </div>
+        </div>
+        <div class="form-group col-md-2">
+          <label class="checkbox-inline checkbox-bootstrap checkbox-lg margin-top-35">
+            <input type="checkbox" [(ngModel)]="parcela.gerarLancamento" name="gerarLancamento">
+            <span class="checkbox-placeholder"></span>
+            Gerar lançamento
+          </label>
+        </div>
+        <div class="form-group col-md-2">
+          <label class="checkbox-inline checkbox-bootstrap checkbox-lg margin-top-35">
+            <input type="checkbox" [(ngModel)]="parcela.permiteConvenio" name="permiteConvenio">
+            <span class="checkbox-placeholder"></span>
+            Permite convênio
+          </label>
+        </div>
+        <div class="form-group col-md-2">
+          <label class="checkbox-inline checkbox-bootstrap checkbox-lg margin-top-35">
+            <input type="checkbox" [(ngModel)]="parcela.geraLanIntegracao" name="geraLanIntegracao">
+            <span class="checkbox-placeholder"></span>
+            Gerar integração
+          </label>
+        </div>
+        <div class="col-md-2 offset-4">
+          <button type="button" class="btn btn-dark btn-block margin-top-10" (click)="addParcela(parcela)">
+            <i class="fa fa-plus"></i>
+            Adicionar
+          </button>
+        </div>
+        <!-- <div class="col-md-12">
+          <p style="text-align: center;"><i class="fas fa-info-circle"></i> Bolsas vinculadas ao plano são fixas não
+            podendo ter mais de uma por parcela nem ser cascateada.</p>
+        </div> -->
+        <div class="col-md-12">
+          <hr>
+        </div>
+        <div class="col-md-12">
+          <h5>Parcelas do plano:</h5>
+        </div>
+        <div class="col-md-12">
+          <table class="table table-sm table-bordered text-center">
+            <thead>
+              <tr>
+                <th>Parcela</th>
+                <th>Servico</th>
+                <th>Banco</th>
+                <th>Conta de caixa</th>
+                <th>Gerar Lançamento</th>
+                <th>Permite convênio</th>
+                <th>Gerar integração</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let parcela of plano.parcelas">
+              <tr>
+                <td [attr.rowspan]="parcela.bolsas.length + 2" class="align-middle">{{parcela.parcela}}</td>
+                <td>{{parcela.servico}}</td>
+                <td>{{parcela.banco}}</td>
+                <td>{{parcela.codCxa}}</td>
+                <td>{{parcela.parcela == plano.parcelaLan ? 'Sim' : 'Não'}}</td>
+                <td>{{parcela.permiteConvenio ? 'Sim' : 'Não'}}</td>
+                <td [attr.rowspan]="parcela.bolsas.length + 2">{{parcela.geraLanIntegracao ? 'Sim' : 'Não'}}</td>
+                <td [attr.rowspan]="parcela.bolsas.length + 2" class="py-0 align-middle">
+                  <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-danger" (click)="removerParcela(parcela)"><i
+                        class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+              <tr style="font-weight: 500;">
+                <td>Bolsa</td>
+                <td>Desconto</td>
+                <td>Tipo de desconto</td>
+                <td>Tipo de bolsa</td>
+                <td>Ordem de aplicação</td>
+              </tr>
+              <tr *ngFor="let bolsa of parcela.bolsas" style="font-weight: 100;">
+                <td>{{bolsa.codBolsa}} - {{bolsa.descricaoBolsa}}</td>
+                <td><input class="form-control" type="number" [name]="parcela.parcela + '_' + bolsa.codPsBolsa + '_' + 'desconto'" [(ngModel)]="bolsa.valor"></td>
+                <td>{{bolsa.descricaoTipoDesc}}</td>
+                <td>{{bolsa.descricaoTipoBolsa}}</td>
+                <td>{{bolsa.ordemAplicacao}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="offset-lg-10 col-md-2">
+          <button type="submit" class="btn btn-dark btn-block">Salvar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>

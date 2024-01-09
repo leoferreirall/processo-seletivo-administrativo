@@ -1,0 +1,146 @@
+
+
+  <section class="content">
+    <div class="container-fluid">
+        <div class="form-row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        Informações Usuário
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li><span class="badge badge-secondary">Nome: </span> {{nome}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-12">
+                <div class="timeline" *ngFor="let item of trilhas">
+                    <div class="time-label">
+                        <span class="" id="" style="background-color: #ffc107; color: black;">Histórico do acesso</span>
+                        <div class="card">
+                            <div class="card-body">
+                                <ul>
+                                    <div class="content">
+                                        <div class="form-row">
+                                            <div class="col-12">
+                                                <li>
+                                                    <span class="badge badge-secondary">Token: </span> {{item.token}}
+                                                </li>
+                                            </div>
+                                            <div class="col-4">
+                                                <li>
+                                                    <span class="badge badge-secondary">Dispositivo:</span> {{item.dispositivo}}
+                                                </li>
+                                                <li>
+                                                    <span class="badge badge-secondary">Sistema Operacional:</span> {{item.so}}
+                                                </li>
+                                            </div>
+                                            <div class="col-4">
+                                                <li>
+                                                    <span class="badge badge-secondary">Browser:</span> {{item.navegador}}
+                                                </li>
+                                                <li>
+                                                    <span class="badge badge-secondary">Versão do Browser:</span> {{item.versaoNavegador}}
+                                                </li>
+                                                <li>
+                                                    <span class="badge badge-secondary">IP:</span> {{item.ip}}
+                                                </li>
+                                            </div>
+                                            <div class="col-4">
+                                                <li>
+                                                    <span class="badge badge-secondary">Criado Por:</span> {{item.recCreatedBy}}
+                                                </li>
+                                                <li>
+                                                    <span class="badge badge-secondary">Criado Em:</span> {{item.recCreatedOn | date : 'dd/MM/yyyy HH:mm'}}
+                                                </li>
+                                                <li>
+                                                    <span class="badge badge-secondary">Alterado Por:</span> {{item.recModifiedBy}}
+                                                </li>
+                                                <li>
+                                                    <span class="badge badge-secondary">Alterado Em:</span> {{item.recModifiedOn | date : 'dd/MM/yyyy HH:mm'}}
+                                                </li>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngFor="let atividade of item.auditHistorico">
+                        <i class="fas fa-check bg-success"></i>
+                        <div class="acordion" id="acodionDetalhe">
+                            <div class="card">
+                                <div class="card-header" id="heading{{atividade.codpsaudithistorico}}">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-link btn-block" type="button" data-toggle="collapse" [attr.data-target]="'#collapse' + atividade.codpsaudithistorico"  aria-expanded="true" [attr.aria-controls]="'collapse' + atividade.codpsaudithistorico" [ngSwitch]="atividade.tipo">
+                                            <div class="form-row">
+                                                <div class="col-4" style="text-align: left;">TABELA: {{atividade.tabela}}</div>
+                                                <div class="col-4">
+                                                    <strong>Atividade: </strong>
+                                                    <label *ngSwitchCase="1">Inlusão</label>
+                                                    <label *ngSwitchCase="2">Atualização</label>
+                                                    <label *ngSwitchCase="3">Pesquisa</label>
+                                                    <label *ngSwitchCase="4">Exclusão</label>
+                                                </div>
+                                                <div class="col-4" style="text-align: right;">
+                                                    <i class="fa fa-chevron-down"></i>
+                                                </div>
+                                            </div>
+                                        </button>
+                                    </h2>
+                                </div>
+                                <div [attr.id]="'collapse' + atividade.codpsaudithistorico" class="collapse" [attr.aria-labelledby]="'heading' + atividade.codpsaudithistorico" data-parent="#acodionDetalhe">
+                                    <table class="table table-sm">
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>Data e Hora:</strong></td>
+                                                <td>{{atividade.recCreatedOn | date : 'dd/MM/yyyy HH:mm'}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Código:</strong></td>
+                                                <td>
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop" (click)="openModal(atividade.codpsaudithistorico)">
+                                                        {{atividade.pk}}
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Método:</strong></td>
+                                                <td>{{atividade.metodo}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Descrição:</strong></td>
+                                                <td>{{atividade.descricao}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+
+              </div>
+              <div class="modal-body">
+                  {{modal.codpsaudithistorico}}
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+              </div>
+          </div>
+      </div>
+  </div>

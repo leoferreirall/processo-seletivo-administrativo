@@ -1,0 +1,87 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="col-md-12">
+      <h1>Importação de bolsas</h1>
+      <hr>
+    </div>
+  </div>
+</section>
+<section class="content">
+  <div class="container-fluid">
+    <form #formBolsa="ngForm" name="formBolsa" (ngSubmit)="onSubmitFormBolsa(bolsa)">
+      <div class="form-row">
+        <div class="form-group col-md-1">
+          <label for="codColigada">Coligada:</label>
+          <input class="form-control" id="codColigada" name="codColigada" readonly [value]="bolsa.codColigada">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="tipoCurso">Tipo de curso:</label>
+          <select class="form-control" id="tipoCurso" name="tipoCurso" [disabled]="listaTipoCurso.length == 0"
+            [(ngModel)]="bolsa.tipoCurso"
+            (change)="onChangeTipoCurso(bolsa.tipoCurso.codColigada, bolsa.tipoCurso.codTipoCurso)">
+            <option *ngFor="let item of listaTipoCurso" [ngValue]="item">{{item.descricaoTipoCurso}}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="codFilial">Unidade:</label>
+          <select class="form-control" id="codFilial" name="codFilial" [disabled]="listaUnidades.length == 0"
+            [(ngModel)]="bolsa.codFilial"
+            (change)="onChangeUnidade(bolsa.codColigada, bolsa.codTipoCurso, bolsa.codFilial)">
+            <option *ngFor="let item of listaUnidades" [ngValue]="item.codFilial">{{item.descricaoFilial}}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="idPerLet">Período letivo:</label>
+          <select class="form-control" id="idPerLet" name="idPerLet" [disabled]="listaPeriodoLetivo.length == 0"
+            [(ngModel)]="bolsa.idPerLet"
+            (change)="onChangePeriodoLetivo(bolsa.codColigada, bolsa.codTipoCurso, bolsa.idPerLet)">
+            <option *ngFor="let item of listaPeriodoLetivo" [ngValue]="item.idPerLet">{{item.idPerLet}} -
+              {{item.descricaoPeriodoLetivo}}</option>
+          </select>
+        </div>
+        <div class="col-md-12">
+          <hr>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="codTipoBolsa">Tipo de bolsa:</label>
+          <select class="form-control" id="codTipoBolsa" name="codTipoBolsa" [disabled]="listaTipoBolsa.length == 0"
+            [(ngModel)]="bolsa.codPsTipoBolsa">
+            <option *ngFor="let item of listaTipoBolsa" [ngValue]="item.codPsTipoBolsa">{{item.nome}}</option>
+          </select>
+        </div>
+        <div class="form-group col-md">
+          <label for="codTipoDesconto">Tipo de desconto:</label>
+          <select class="form-control" id="codTipoDesconto" name="codTipoDesconto"
+            [disabled]="listaTipoDesconto.length == 0" [(ngModel)]="bolsa.codPsTipoDesc">
+            <option *ngFor="let item of listaTipoDesconto" [ngValue]="item.codPsTipoDesc">{{item.nome}} -
+              {{item.descricao}}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-3" *ngIf="bolsa.codPsTipoBolsa == 3">
+          <label for="codFormaIngresso">Forma de ingresso:</label>
+          <select class="form-control" id="codFormaIngresso" name="codFormaIngresso" [disabled]="listaTipoBolsa.length == 0"
+            [(ngModel)]="bolsa.idPs">
+            <option *ngFor="let item of listaFormaIngresso" [ngValue]="item.codFormaIngresso">{{item.codFormaIngresso}} - {{item.descricaoFormaIngresso}}</option>
+          </select>
+        </div>
+        <div class="col-md-12">
+          <hr>
+        </div>
+        <div class="form-group col-md-12">
+          <label for="bolsas">Bolsa:</label>
+          <select class="form-control" style="height: 200px;" id="bolsas" name="bolsas" [disabled]="listaBolsas.length == 0"
+            [(ngModel)]="bolsa.bolsas" multiple>
+            <option (click)="onChangeSelect($event, listaBolsas, 'bolsas', 'codBolsa')" id="0" [value]="0">Todos
+            </option>
+            <option (click)="onChangeSelect($event, listaBolsas, 'bolsas', 'codBolsa')" [id]="item.codBolsa"
+              *ngFor="let item of listaBolsas" [ngValue]="item.codBolsa">{{item.codBolsa}} -
+              {{item.nome}}</option>
+          </select>
+        </div>
+        <div class="offset-lg-10 col-md-2">
+          <button type="submit" class="btn btn-dark btn-block">Importar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>

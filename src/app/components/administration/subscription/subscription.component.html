@@ -1,0 +1,32 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="col-md-12">
+      <h1>Inscrições</h1>
+      <hr>
+    </div>
+  </div>
+</section>
+<section class="content">
+  <div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped table-bordered table-sm row-border hover">
+        <thead>
+          <tr>
+            <th>Id Inscrição</th>
+            <th>Atividade atual</th>
+            <th>Status</th>
+            <th>Data Cadastro</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of inscricoes">
+            <td><a [routerLink]="['integracao', item.idInscricao]">{{item.idInscricao}}</a></td>
+            <td>{{item.atividade}}</td>
+            <td>{{item.status}}</td>
+            <td>{{item.reccreatedon | date : 'dd/MM/yyyy HH:mm:ss'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

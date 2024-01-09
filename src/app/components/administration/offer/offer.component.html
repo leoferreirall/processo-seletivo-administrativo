@@ -1,0 +1,183 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="col-md-12">
+      <div class="form-row">
+        <div class="col-8"><h1>Convênios</h1></div>
+        <div class="col-4">
+          <form #formConvenio="ngForm" name="formPublicar" (ngSubmit)="onSubmitFormPublicar()">
+            <button type="submit" class="btn btn-dark btn-block" [disabled]="!convenio.publicar">Publicar</button>
+          </form>
+        </div>
+      </div>
+      <hr>
+    </div>
+  </div>
+</section>
+<section class="content">
+  <div class="container-fluid">
+    <form #formConvenio="ngForm" name="formConvenio" (ngSubmit)="onSubmitFormConvenio(convenio)">
+      <div class="form-row">
+        <div class="form-group col-md-1">
+          <label for="codColigada">Coligada:</label>
+          <input class="form-control" id="codColigada" name="codColigada" readonly [value]="convenio.codColigada">
+        </div>
+        <div class="form-group col-md-3">
+          <label for="tipoCurso">Tipo de curso:</label>
+          <select class="form-control" id="tipoCurso" name="tipoCurso" [disabled]="listaTipoCurso.length == 0" [(ngModel)]="convenio.tipoCurso"
+            (change)="onChangeTipoCurso(convenio.tipoCurso.codColigada, convenio.tipoCurso.codTipoCurso)">
+            <option *ngFor="let item of listaTipoCurso" [ngValue]="item">{{item.descricaoTipoCurso}}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="codFilial">Unidade:</label>
+          <select class="form-control" id="codFilial" name="codFilial" [disabled]="listaUnidades.length == 0" [(ngModel)]="convenio.codFilial"
+            (change)="onChangeUnidade(convenio.codColigada, convenio.codTipoCurso, convenio.codFilial)">
+            <option *ngFor="let item of listaUnidades" [ngValue]="item.codFilial">{{item.descricaoFilial}}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="idCategoriaPs">Categoria:</label>
+          <select class="form-control" id="idCategoriaPs" name="idCategoriaPs" [disabled]="listaCategorias.length == 0" [(ngModel)]="convenio.idCategoriaPs"
+          (change)="onChangeCategoria(convenio.codColigada, convenio.codTipoCurso, convenio.codFilial, convenio.idCategoriaPs)">
+            <option *ngFor="let item of listaCategorias" [ngValue]="item.idCategoriaPs">{{item.descricaoCategoriaPS}}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="idPerLet">Período letivo:</label>
+          <select class="form-control" id="idPerLet" name="idPerLet" [disabled]="listaPeriodoLetivo.length == 0" [(ngModel)]="convenio.idPerLet"
+            (change)="onChangePeriodoLetivo(convenio.codColigada, convenio.codTipoCurso, convenio.codFilial, convenio.idCategoriaPs, convenio.idPerLet)">
+            <option *ngFor="let item of listaPeriodoLetivo" [ngValue]="item.idPerLet">{{item.idPerLet}} -
+              {{item.descricaoPeriodoLetivo}}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-1">
+          <label>Tipo: </label>
+          <br>
+          <div class="form-check-inline">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="tipoConsulta" [(ngModel)]="convenio.tipoConsulta" (blur)="onBlurTipo(convenio)" [value]="1">Detalhada 
+            </label>
+          </div>
+          <div class="form-check-inline">
+            <label class="form-check-label">
+              <input type="radio" class="form-check-input" name="tipoConsulta" [(ngModel)]="convenio.tipoConsulta" (blur)="onBlurTipo(convenio)" [value]="0">Agrupada
+            </label>
+          </div>
+      </div>
+        <div class="form-group col-md-6">
+          <label for="cursos">Curso:</label>
+          <select class="form-control" id="cursos" name="cursos" [disabled]="listaCursos.length == 0" [(ngModel)]="convenio.cursos"
+            (blur)="onBlurCurso(convenio)" multiple>
+            <option (click)="onChangeSelect($event, listaCursos, 'cursos', 'codCurso')" id="0" [value]="0">Todos
+            </option>
+            <option (click)="onChangeSelect($event, listaCursos, 'cursos', 'codCurso')" [id]="item.codCurso"
+              *ngFor="let item of listaCursos" [ngValue]="item.codCurso">{{item.descricaoCurso}}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-6">
+          <label for="bolsas">Bolsa:</label>
+          <select class="form-control" id="bolsas" name="bolsas" [disabled]="listaBolsas.length == 0" [(ngModel)]="convenio.bolsas" 
+          (blur)="onBlurBolsa(convenio)" multiple>
+            <option (click)="onChangeSelect($event, listaBolsas, 'bolsas', 'codPsBolsa')" id="0" [value]="0">Todos
+            </option>
+            <option (click)="onChangeSelect($event, listaBolsas, 'bolsas', 'codPsBolsa')" [id]="item.codPsBolsa"
+              *ngFor="let item of listaBolsas" [ngValue]="item.codPsBolsa">{{item.codBolsa}} -
+              {{item.descricaoBolsa}}</option>
+          </select>
+        </div>
+        <div class="col-md-12">
+          <hr>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="turnos">Turno:</label>
+          <select class="form-control" id="turnos" name="turnos" [disabled]="listaTurnos.length == 0" [(ngModel)]="convenio.turnos"
+            (blur)="onBlurTurno(convenio)" multiple>
+            <option (click)="onChangeSelect($event, listaTurnos, 'turnos', 'codTurno')" id="0" [value]="0">Todos
+            </option>
+            <option (click)="onChangeSelect($event, listaTurnos, 'turnos', 'codTurno')" [id]="item.codTurno"
+              *ngFor="let item of listaTurnos" [ngValue]="item.codTurno">{{item.descricaoTurno}}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="formasIngresso">Forma de ingresso:</label>
+          <select class="form-control" id="formasIngresso" name="formasIngresso" [disabled]="listaFormaIngresso.length == 0" [(ngModel)]="convenio.formasIngresso"
+            (blur)="onBlurFormaIngresso(convenio)" multiple>
+            <option (click)="onChangeSelect($event, listaFormaIngresso, 'formasIngresso', 'codFormaIngresso')" id="0"
+              [value]="0">Todos</option>
+            <option (click)="onChangeSelect($event, listaFormaIngresso, 'formasIngresso', 'codFormaIngresso')"
+              [id]="item.codFormaIngresso" *ngFor="let item of listaFormaIngresso" [ngValue]="item.codFormaIngresso">
+              {{item.descricaoFormaIngresso}}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="semestres">Semestre:</label>
+          <select class="form-control" id="semestres" name="semestres" [disabled]="listaSemestres.length == 0" [(ngModel)]="convenio.semestres"
+            (blur)="onBlurSemestre(convenio)" multiple>
+            <option (click)="onChangeSelect($event, listaSemestres, 'semestres', 'codSemestre')" id="0" [value]="0">
+              Todos</option>
+            <option (click)="onChangeSelect($event, listaSemestres, 'semestres', 'codSemestre')" [id]="item.codSemestre"
+              *ngFor="let item of listaSemestres" [ngValue]="item.codSemestre">{{item.codSemestre}}º Semestre</option>
+          </select>
+        </div>
+        <div class="col-md-12">
+          <hr>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="estados">Estado:</label>
+          <select class="form-control" id="estados" name="estados" [disabled]="listaEstados.length == 0" [(ngModel)]="convenio.estados"
+            (blur)="onBlurEstado(convenio)" multiple>
+            <option (click)="onChangeSelect($event, listaEstados, 'estados', 'codEstado')" id="0" [value]="0">Todos
+            </option>
+            <option (click)="onChangeSelect($event, listaEstados, 'estados', 'codEstado')" [id]="item.codEstado"
+              *ngFor="let item of listaEstados" [ngValue]="item.codEstado">{{item.codEstado}}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="cidades">Cidade:</label>
+          <select class="form-control" id="cidades" name="cidades" [disabled]="listaCidades.length == 0" [(ngModel)]="convenio.cidades"
+            (blur)="onBlurCidade(convenio)" multiple>
+            <option (click)="onChangeSelect($event, listaCidades, 'cidades', 'codCidade')" id="0" [value]="0">Todos
+            </option>
+            <option (click)="onChangeSelect($event, listaCidades, 'cidades', 'codCidade')" [id]="item.codCidade"
+              *ngFor="let item of listaCidades" [ngValue]="item.codCidade">{{item.codCidade}}</option>
+          </select>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="polos">Polo:</label>
+          <select class="form-control" id="polos" name="polos" [disabled]="listaPolos.length == 0" [(ngModel)]="convenio.polos"
+            (blur)="onBlurPolo(convenio)" multiple>
+            <option (click)="onChangeSelect($event, listaPolos, 'polos', 'codPolo')" id="0" [value]="0">Todos</option>
+            <option (click)="onChangeSelect($event, listaPolos, 'polos', 'codPolo')" [id]="item.codPolo"
+              *ngFor="let item of listaPolos" [ngValue]="item.codPolo">{{item.descricaoPolo}}</option>
+          </select>
+        </div>        
+        <div class="offset-lg-10 col-md-2">
+          <button type="submit" class="btn btn-dark btn-block">Exportar</button>
+        </div>
+      </div>
+    </form>
+    <div class="col-md-12">
+      <hr>
+    </div>
+    <form #formConvenio="ngForm" name="formFile" (ngSubmit)="onSubmitFormFile(file)">
+      <div class="form-row align-items-center">
+        <div class="form-group col-md-6">
+          <label for="file">Arquivo:</label>
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" id="file" accept=".xls,.xlsx" (change)="onChangeFile($event)">
+            <label class="custom-file-label" for="file" id="file-label">Selecione um arquivo</label>
+          </div>
+        </div>
+        <div class="offset-lg-4 col-md-2">
+          <button type="submit" class="btn btn-dark btn-block">Importar</button>
+        </div>
+        <div *ngIf="mensagemErro" class="col-md-12 text-danger">
+          <p>{{mensagemErro}}</p>
+        </div>
+        <div *ngIf="mensagemSucesso" class="col-md-12 text-success">
+          <p>{{mensagemSucesso}}</p>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>

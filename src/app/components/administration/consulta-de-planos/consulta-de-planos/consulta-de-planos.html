@@ -1,0 +1,122 @@
+<div>
+  <h1>Consulta de Planos</h1>
+  <hr>
+</div>
+
+<div class="container">
+<div class="row d-flex justify-content-center text-center">
+
+  <div class="col-md-4">
+    <label for="SEMESTRE">SEMESTRE CURSO:</label>
+    <select (change)="populaTurnoLetivo($event)" class="form-control ng-untouched ng-pristine" id="SEMESTRE" name="SEMESTRE">
+      <option *ngFor="let item of listaPeriodoLetivos" [value]="item">{{item.descricaoPeriodoLetivo}}</option>
+    </select>
+  </div>
+
+  <div class="col-md-4">
+    <label for="modalidade">MODALIDADE:</label>
+     <select (change)="populaPeriodoLetivo($event)" class="form-control ng-untouched ng-pristine" id="modalidade" name="modalidade">
+      <option *ngFor="let item of listaModalidade" [value]="item">{{item.categoriaPs}}</option>
+    </select>
+  </div>
+
+  <div class="col-md-4">
+    <label for="CURSO">CURSO:</label>
+    <select class="form-control ng-untouched ng-pristine" id="CURSO" name="CURSO">
+      <option [ngValue]="">Todos</option>
+      <option *ngFor="let item of listaCursos" [ngValue]="item.listaCursos">{{item.listaCursos}}</option>
+    </select>
+  </div>
+
+  <div class="col-md-4">
+    <label for="UNIDADE">UNIDADE:</label>
+    <select class="form-control ng-untouched ng-pristine" id="UNIDADE" name="UNIDADE">
+      <option [ngValue]="">Todos</option>
+      <option *ngFor="let item of listaCampus" [ngValue]="item.listaCampus">{{item.listaCampus}}</option>
+    </select>
+  </div>
+</div>
+
+
+<div class="row d-flex justify-content-center text-center">
+
+  <div class="col-md-4">
+    <label for="TURNO">TURNO:</label>
+    <select class="form-control ng-untouched ng-pristine" id="TURNO" name="TURNO">
+      <option *ngFor="let item of listaTurnos" [value]="item">{{item.descricaoTurno}}</option>
+    </select>
+  </div>
+
+  <div class="col-md-4">
+    <label for="INGRESSO">MEIO DE INGRESSO:</label>
+    <select class="form-control ng-untouched ng-pristine" id="INGRESSO" name="INGRESSO">
+      <option [ngValue]="">Todos</option>
+      <option *ngFor="let item of listaModalidade" [ngValue]="item.listaCampanha">{{item.listaModalidade}}</option>
+    </select>
+  </div>
+  <div class="col-md-4">
+    <label for="CAMPANHA">CAMPANHA:</label>
+    <select class="form-control ng-untouched ng-pristine" id="CAMPANHA" name="CAMPANHA">
+      <option [ngValue]="">Todos</option>
+      <option *ngFor="let item of listaCampanha" [ngValue]="item.listaCampanha">{{item.listaCampanha}}</option>
+    </select>
+  </div>
+
+</div>
+
+
+<div>
+  <hr>
+  <h4 style="text-align: center">Mensalidades</h4>
+  <hr>
+</div>
+
+<table class="table table-striped table-bordered table-sm row-border hover dataTable no-footer">
+  <thead>
+    <tr>
+      <th scope="col ">Campanha de Matrícula</th>
+      <th scope="col">Valor Original</th>
+      <th scope="col">% de desconto</th>
+      <th scope="col">Valor com desconto</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="ng-star-inserted odd">
+      <td>Result 1</td>
+      <td>Result 1</td>
+      <td>Result 1</td>
+      <td>Result 1</td>
+    </tr>
+    <tr class="ng-star-inserted even">
+      <td>Result 2</td>
+      <td>Result 2</td>
+      <td>Result 2</td>
+      <td>Result 2</td>
+    </tr>
+    <tr class="ng-star-inserted odd">
+      <td>Result 3</td>
+      <td>Result 3</td>
+      <td>Result 3</td>
+      <td>Result 3</td>
+    </tr>
+    <tr class="ng-star-inserted even">
+      <td>Result 4</td>
+      <td>Result 4</td>
+      <td>Result 4</td>
+      <td>Result 4</td>
+    </tr>
+    <tr class="ng-star-inserted odd">
+      <td>Result 5</td>
+      <td>Result 5</td>
+      <td>Result 5</td>
+      <td>Result 5</td>
+    </tr>
+    <tr class="ng-star-inserted even">
+      <td>Result 6</td>
+      <td>Result 6</td>
+      <td>Result 6</td>
+      <td>Result 6</td>
+    </tr>
+  </tbody>
+</table>
+

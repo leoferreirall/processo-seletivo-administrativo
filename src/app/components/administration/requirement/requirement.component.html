@@ -1,0 +1,152 @@
+<section class="content-header">
+    <div class="container-fluid">
+      <div class="col-md-12">
+        <h1>Formas de ingresso - Requisitos</h1>
+        <hr>
+      </div>
+    </div>
+  </section>
+  <section class="content">
+    <div class="container-fluid">
+      <form #formPs="ngForm" name="formPs" (ngSubmit)="onSubmitFormPs(model)">
+        <div class="form-row">
+          <div class="form-group col-md-1">
+            <label for="codColigada">Coligada:</label>
+            <input class="form-control" id="codColigada" name="codColigada" readonly [value]="model.codColigada">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="tipoCurso">Tipo de curso:</label>
+            <select class="form-control" id="tipoCurso" name="tipoCurso" [disabled]="listaTipoCurso.length == 0" [(ngModel)]="model.tipoCurso"
+            (change)="onChangeTipoCurso(model.tipoCurso.codTipoCurso, model.tipoCurso.codColigada)">
+              <option *ngFor="let item of listaTipoCurso" [ngValue]="item">{{item.descricaoTipoCurso}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="codFilial">Unidade:</label>
+            <select class="form-control" id="codFilial" name="codFilial" [disabled]="listaUnidades.length == 0" [(ngModel)]="model.codFilial"
+            (change)="onChangeUnidade(model.codFilial, model.codTipoCurso)">
+              <option *ngFor="let item of listaUnidades" [ngValue]="item.codFilial">{{item.descricaoFilial}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="idCategoriaPs">Categoria:</label>
+            <select class="form-control" id="idCategoriaPs" name="idCategoriaPs" [disabled]="listaCategoria.length == 0" [(ngModel)]="model.idCategoriaPs"
+            (change)="onChangeCategoria(model.codFilial, model.codTipoCurso, model.idCategoriaPs)">
+              <option *ngFor="let item of listaCategoria" [ngValue]="item.idCategoriaPs">{{item.categoriaPs}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="idPerLet">Período letivo:</label>
+            <select class="form-control" id="idPerLet" name="idPerLet" [disabled]="listaPeriodoLetivo.length == 0" [(ngModel)]="model.idPerLet"
+            (change)="onChangePeriodoLetivo(model.codTipoCurso, model.codFilial, model.idCategoriaPs, model.idPerLet)">
+              <option *ngFor="let item of listaPeriodoLetivo" [ngValue]="item.idPerLet">{{item.idPerLet}} -
+                {{item.descricaoPeriodoLetivo}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="idPs">Forma de Ingresso:</label>
+            <select class="form-control" id="idPs" name="idPs" [disabled]="listaFormaIngresso.length == 0" [(ngModel)]="model.formaIngresso"
+            (change)="onChangeFormaIngresso(model.codTipoCurso, model.idCategoriaPs, model.formaIngresso.idPs, model.formaIngresso.codPsFormaIngressoDominio)">
+              <option *ngFor="let item of listaFormaIngresso" [ngValue]="item">{{item.formaIngresso}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-2">
+            <label class="checkbox-inline checkbox-bootstrap checkbox-lg margin-top-45">
+              <input type="checkbox" [(ngModel)]="model.validaStatusChamada" name="validaStatusChamada">
+              <span class="checkbox-placeholder"></span>
+              Valida status chamada
+            </label>
+          </div>
+          <div class="col-md-12">
+            <hr>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="requisito">Requisito:</label>
+            <select class="form-control" id="requisito" name="requisito" [disabled]="listaRequisito.length == 0 || !model.formaIngresso" [(ngModel)]="requisito.codPsTipoRequisito">
+              <option *ngFor="let item of listaRequisito" [ngValue]="item.codPsTipoRequisito">{{item.descricao}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="ordem">Ordem habilitação:</label>
+            <input style="width: 50%;" type="number" class="form-control" id="ordem" name="ordem" [(ngModel)]="requisito.ordem">
+          </div>          
+          <div class="form-group col-md-2">
+            <label class="checkbox-inline checkbox-bootstrap checkbox-lg margin-top-45">
+              <input type="checkbox" [(ngModel)]="requisito.requerAnalise" name="requerAnalise">
+              <span class="checkbox-placeholder"></span>
+              Requer análise
+            </label>
+          </div>
+          <div class="form-group col-md-5">
+            <label class="checkbox-inline checkbox-bootstrap checkbox-lg margin-top-45">
+              <input type="checkbox" [(ngModel)]="requisito.requerAceite" name="requerAceite">
+              <span class="checkbox-placeholder"></span>
+              Requer aceite
+            </label>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="dtInicio">Data Inicial:</label>
+            <input type="date" class="form-control" id="dtInicio" name="dtInicio" [(ngModel)]="requisito.dtInicio">
+          </div>
+          <div class="form-group col-md-2">
+            <label for="hrInicio">Hora Inicial:</label>
+            <input type="time" class="form-control" id="hrInicio" name="hrInicio" [(ngModel)]="requisito.hrInicio">
+          </div>
+          <div class="form-group col-md-2">
+            <label for="dtFim">Data Final:</label>
+            <input type="date" class="form-control" id="dtFim" name="dtFim" [(ngModel)]="requisito.dtFim">
+          </div>
+          <div class="form-group col-md-2">
+            <label for="hrFim">Hora Final:</label>
+            <input type="time" class="form-control" id="hrFim" name="hrFim" [(ngModel)]="requisito.hrFim">
+          </div>
+          <div class="col-md-2 offset-10">
+            <button type="button" class="btn btn-dark btn-block margin-top-10" (click)="requisito.codPsTipoRequisito && addReqFormaIngresso()">
+              <i class="fa fa-plus"></i>
+              Adicionar
+            </button>
+          </div>
+          <div class="col-md-12">
+            <hr>
+          </div>
+          <div class="col-md-12">
+            <h5>Requisitos:</h5>
+          </div>
+          <table class="table table-sm table-bordered text-center">
+            <thead>
+              <tr>
+                <th>Requisito</th>
+                <th>Ordem exibição</th>
+                <th>Ordem habilitação</th>
+                <th>Data Início</th>
+                <th>Data Fim</th>
+                <th>Requer análise</th>
+                <th>Requer aceite</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of model.psReqFormaIngresso">
+                <td>{{item.descricao}}</td>
+                <td>{{item.ordemExibicao}}</td>
+                <td>{{item.ordem}}</td>
+                <td>{{item.dtInicio | date:'dd/MM/yyyy hh:mm a':'IST':'pt'}}</td>
+                <td>{{item.dtFim | date:'dd/MM/yyyy hh:mm a':'IST':'pt'}}</td>
+                <td>{{item.requerAnalise ? 'SIM' : 'NÃO'}}</td>
+                <td>{{item.requerAceite ? 'SIM' : 'NÃO'}}</td>
+                <td>
+                  <div class="btn-group btn-group-sm">
+                    <button type="button" class="btn btn-danger" (click)="removerReqFormaIngresso(item)"><i
+                        class="fas fa-trash"></i></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="offset-lg-10 col-md-2">
+            <button type="submit" class="btn btn-dark btn-block">Salvar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>

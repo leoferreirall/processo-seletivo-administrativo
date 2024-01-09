@@ -1,0 +1,77 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="container mt-4">
+      <div class="card">
+        <div class="card-header">
+          <strong>Inscrição:</strong> #{{inscricao.idInscricao}}</div>
+        <div class="card-body">
+          <ul>
+            <li>
+              <span class="badge badge-secondary">Nome:</span> {{inscricao.nome}}
+            </li>
+            <li>
+              <span class="badge badge-secondary">Data de inscrição:</span> 
+                {{inscricao.dataInscricao | date : 'dd/MM/yyyy HH:mm:ss'}}
+            </li>
+            <li>
+              <span class="badge badge-secondary">
+                CPF:</span> {{inscricao.cpf}}
+            </li>
+            <li>
+              <span class="badge badge-secondary">
+                RA:</span> {{inscricao.RA}}
+            </li>
+          </ul>
+        </div>
+        <div class="card-footer" *ngIf="inscricao.status == 2">
+          <button type="button" class="btn btn-secondary" (click)="reprocessar(inscricao.idInscricao)">Reprocesssar</button>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="col-12 text-white mt-3">
+        <div class="timeline">
+          <div class="time-label">
+            <span class="" id="" style="background-color: #ffc107; color: black;">{{inscricao.dataInscricao | date : 'dd/MM/yyyy HH:mm:ss'}}</span>
+          </div>
+          <div *ngFor="let atividade of atividades">            
+            <i class="fas" [ngClass]="{'fa-check bg-success': atividade.status == 1,
+                'fa-times bg-danger': atividade.status == 2,
+                'fa-sync bg-primary': atividade.status == 3,
+                'fa-clock bg-dark': atividade.status == 4}"
+              *ngIf="!(inscricao.status == 3 && inscricao.idAtividade == atividade.id)"></i>
+
+            <i class="fas" class="fas fa-sync fa-spin bg-primary"
+              *ngIf="inscricao.status == 3 && inscricao.idAtividade == atividade.id"></i>
+
+            <div class="timeline-item">
+              <h3 class="timeline-header">
+                <a href="#" [ngClass]="{'text-success': atividade.status == 1,
+                  'text-danger': atividade.status == 2,
+                  'text-primary': atividade.status == 3,
+                  'text-dark': atividade.status == 4}">{{atividade.chave}}</a> {{atividade.descricao}}</h3>
+              <div class="timeline-body" *ngIf="atividade.log.length > 0">
+                <table class="table table-sm">
+                  <thead>
+                    <tr>
+                      <th>Mensagem</th>
+                      <th>Data</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let log of atividade.log">
+                      <td style="width: 95%;">{{log.mensagem}}</td>
+                      <td>{{log.reccreatedon | date : 'dd/MM/yyyy HH:mm:ss'}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div>
+            <i class="fas bg-dark"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

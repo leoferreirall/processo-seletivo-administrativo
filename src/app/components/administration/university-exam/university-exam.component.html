@@ -1,0 +1,107 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="col-md-12">
+      <h1>Provas</h1>
+      <hr>
+    </div>
+  </div>
+</section>
+<section class="content">
+  <div class="form-group">
+    <div class="row">
+      <div class="col-md-2">
+        <label for="statusAprovacao">Status:</label>
+        <select class="form-control" id="statusAvaliacao" name="statusAvaliacao" (change)="filtroPorStatus($event)">
+          <option>Todos</option>
+          <option *ngFor="let item of status" [ngValue]="item.codPsStatusReq">{{item.descricao}}</option>
+        </select>
+      </div>
+
+      <div class="col-md-12 col-xl-3 form-inline">
+        <label for="dataRealizacao" class="text-center control-label col-md-12">Data Realização</label>
+        <div class="col-md-5 display-contents">
+          <label class="control-label mr-1">De: </label>
+          <input type="date" class="form-control" [(ngModel)]="modelFiltro.deDataRealizacao">
+        </div>
+        <div class="col-md-5 display-contents">
+          <label class="control-label mr-1 ml-md-2">Até: </label>
+          <input type="date" class="form-control" [(ngModel)]="modelFiltro.ateDataRealizacao">
+        </div>
+        <div class="col-md-1">
+          <i class="fas fa-search-plus"
+            [ngClass]="{'disabled': verificaDataRealizacao(), 'cursor-search': !verificaDataRealizacao()}"
+            placement="top" (click)="filtrarDataRealizacao()" data-toggle="tooltip" data-placement="top"
+            title="Efetuar pesquisa pela data de realização (Os campos devem estar preenchidos)"></i>
+
+          <i class="fas fa-eraser cursor-search" data-toggle="tooltip" data-placement="top" title="Limpar data correção"
+            (click)="limparDataRealizacao()"></i>
+        </div>
+      </div>
+
+      <div class="col-md-12 col-xl-3 form-inline">
+        <label for="dataRealizacao" class="text-center control-label col-md-12">Data Correção</label>
+        <div class="col-md-5 display-contents">
+          <label class="control-label mr-1">De: </label>
+          <input type="date" class="form-control" [(ngModel)]="modelFiltro.deDataCorrecao">
+        </div>
+        <div class="col-md-5 display-contents">
+          <label class="control-label mr-1 ml-md-2">Até: </label>
+          <input type="date" class="form-control" [(ngModel)]="modelFiltro.ateDataCorrecao">
+        </div>
+        <div class="col-md-1">
+
+          <i class="fas fa-search-plus"
+            [ngClass]="{'disabled': verificaDataCorrecao(), 'cursor-search': !verificaDataCorrecao()}"
+            (click)="filtrarDataCorrecao()" data-toggle="tooltip" data-placement="top"
+            title="Efetuar pesquisa pela data de correção (Os campos devem estar preenchidos)"></i>
+
+          <i class="fas fa-eraser cursor-search" data-toggle="tooltip" data-placement="top" title="Limpar data correção"
+            (click)="limparDataCorrecao()"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <table datatable [dtOptions]="dtOptions" class="table table-striped table-bordered table-sm row-border hover"
+        [style]="'width:100%'">
+        <thead>
+          <tr>
+            <th [width]="70">Cod. avaliação</th>
+            <th>Nome</th>
+            <th [width]="'8%'">Data realização</th>
+            <th [width]="'3%'">Nota</th>
+            <th [width]="'8%'">Data correção</th>
+            <th>Comentário</th>
+            <th [width]="'8%'">Status</th>
+            <th [width]="'2%'"></th>
+          </tr>
+        </thead>
+        <tbody *ngIf="listProvas?.length == 0">
+          <tr>
+            <td *ngIf="!carregando" colspan="8" class="no-data-available text-center">Nenhum registro encontrado!</td>
+            <td *ngIf="carregando" colspan="8" class="no-data-available text-center">Carregando informações...</td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="listProvas?.length != 0">
+          <tr *ngFor="let item of listProvas">
+            <td>{{item.codPsReqAvaliacao}}</td>
+            <td>{{item.nomeCandidato}}</td>
+            <td>{{item.dataRealizacao | date : 'dd/MM/yyyy'}}</td>
+            <td>{{item.notaRedacao | number : '1.2-2'}}</td>
+            <td>{{item.dataCorrecao | date : 'dd/MM/yyyy'}}</td>
+            <td>{{item.comentario}}</td>
+            <td>{{item.descricaoStatusReq}}</td>
+            <td class="text-right py-0 align-middle">
+              <div class="btn-group btn-group-sm">
+                <button class="btn btn-info" [routerLink]="[item.codPsReqAvaliacao]"><i
+                    class="fas fa-edit"></i></button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

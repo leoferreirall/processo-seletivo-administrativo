@@ -1,0 +1,39 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="col-md-12">
+      <h1>ENEM #{{enem.codPsIngressoEnem}}</h1>
+      <hr>
+    </div>
+  </div>
+</section>
+<section class="content">
+  <div class="container-fluid">
+    <div class="form-row">
+      <div class="form-group col-md-2">
+        <label for="codColigada">Inscrição:</label>
+        <p>#{{inscricao.codPsInscricao}}</p>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="codColigada">Curso:</label>
+        <p>{{inscricao.curso}}</p>
+      </div>
+      <div class="col-md-12">
+        <hr>
+      </div>
+      <div class="form-group col-md-2">
+        <label for="codColigada">Ano:</label>
+        <p>{{enem.ano}}</p>
+      </div>
+      <div class="form-group col-md-2">
+        <label for="codColigada">Nota:</label>
+        <p>{{enem.nota}}</p>
+      </div>
+      <div class="offset-md-8 col-md-2 mb-2">
+        <button type="button" class="btn btn-danger btn-block" (click)="AprovarReprovar(enem, false)">Reprovar</button>
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="btn btn-dark btn-block" (click)="AprovarReprovar(enem, true)">Aprovar</button>
+      </div>
+    </div>
+  </div>
+</section>

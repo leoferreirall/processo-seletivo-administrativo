@@ -1,0 +1,117 @@
+<section class="content-header">
+   <div class="container-fluid">
+      <div class="col-md-12">
+         <h1>Baixa Manual</h1>
+         <hr>
+      </div>
+   </div>
+ </section>
+ <section class="content">
+   <div class="container-fluid">
+      <form #formBaixa="ngForm" name="formBaixa" (ngSubmit)="onSubmitPesquisar(baixa)">
+      <div class="form-row">
+         <div class="form-group col-md-2">
+            <label for="cpf">CPF Candidato:</label>
+            <input [mask]="mask" (keyup)="cpfcnpjmask()" class="form-control" id="cpf" name="cpf" [(ngModel)]="baixa.cpf">
+         </div>
+         <div class="form-group col-md-2">
+            <label for="nossonumero">Nosso Numero:</label>
+            <input class="form-control" id="nossonumero" name="nossonumero" [(ngModel)]="baixa.nossonumero">
+         </div>
+         <!-- <div class="form-group col-md-3">
+            <label for="status">Status:</label>
+            <select class="form-control" id="status" name="status" [(ngModel)]="baixa.status" (change)="onChangeStatus(baixa.status)">
+              <option *ngFor="let item of listaStatus" [ngValue]="item.status">{{item.descricao}}</option>
+            </select>
+            </div> -->
+         <div class="offset-lg-10 col-md-2">
+            <button type="submit" class="btn btn-dark btn-block">Pesquisar</button>
+         </div>
+      </div>
+      </form> 
+   </div>
+   <hr>
+   <div class="row">
+      <div class="col-md-12">
+   <!--Inscricao--><div *ngFor="let inscricao of data">
+            <table class="table table-sm table-bordered text-center">
+               <thead>
+                  <div>
+                     <table class="table table-sm table-bordered text-center">
+                        <thead>
+                           <tr style="font-weight: 500; background-color: antiquewhite; font-weight: 500;">
+                              <th>Inscrição</th>
+                              <th>Candidato</th>
+                              <th>CPF</th>
+                              <th>Curso</th> 
+                           </tr>
+                        </thead>
+                        <tbody style="font-weight: 100;">
+                           <tr>
+                              <th>{{inscricao.codPsInscricao}}</th>
+                              <td>{{inscricao.nome}}</td>
+                              <td>{{inscricao.cpf}}</td>
+                              <th>{{inscricao.curso}}</th>  
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+   <!--lancamento--><div *ngFor="let lanc of inscricao.lancamento" style="font-weight: 100;">
+                     <table class="table table-sm table-bordered text-center">
+                        <thead>
+                           <tr style="font-weight: 500; background-color: antiquewhite; font-weight: 500;">
+                              <th>Lançamento</th>
+                              <th>Tipo</th>
+                              <th>Valor</th>
+                              <th>Bolsa</th>
+                              <th>Desconto</th>
+                              <th>Baixar</th>
+                           </tr>
+                        </thead>
+                        <tbody style="font-weight: 100;">
+                           <tr>
+                              <th  [attr.rowspan]="inscricao.lancamento.length + 100" style="width: 10%;" class="align-middle">{{lanc.codPsLan}}</th>
+                              <td>{{lanc.lancamentoMatricula == false ? 'Matricula' : 'Lancamento'}}</td>
+                              <td>{{lanc.valorLancamento | currency:'R$ '}}</td>
+                              <td>{{lanc.bolsa}}</td>
+                              <td>{{lanc.valorDesconto | currency:'R$ '}}</td>
+                              <td>
+                               <button [disabled]="lanc.baixado || (!lanc.baixado && !lanc.isCartao)" type="button" class="btn btn-primary" (click)="onSubmiBaixarCartao(lanc.codPsLan)"><i
+                                 class="fas fa-credit-card"></i></button>  
+                                 <button [disabled]="lanc.baixado || (!lanc.baixado && !lanc.isBoleto)" type="button" class="btn btn-warning" (click)="onSubmiBaixarBoleto(lanc.codPsLan)"><i
+                                   class="fas fa-list-alt"></i></button> 
+                              </td>
+                           </tr>
+                           <tr style="font-weight: 500; background-color: antiquewhite; font-weight: 500;">
+                             <th>Pagamento</th>
+                             <th>Nosso Número</th>
+                             <th>Tipo</th>
+                             <th>Valor</th>                                
+                             <th>Status</th>
+                          </tr>
+          <!--Pagamento--><tr *ngFor="let pgto of lanc.pagamento">   
+                           <ng-container *ngIf="pgto.cartao.codPsTransacaoPgto > 0">
+                             <td>{{pgto.dataPagamento | date : 'dd/MM/yyyy'}}</td>
+                             <td>{{pgto.nossoNumero}}</td>
+                             <td>{{pgto.tipoPgto}}</td>
+                             <td>{{pgto.cartao.valorPagoCartao | currency:'R$ '}}</td>
+                             <td>{{pgto.cartao.statusPagto == true ? 'PAGO' : 'ERRO'}}</td>
+                           </ng-container>
+                           <ng-container *ngIf="pgto.boleto.codPsBoleto > 0">
+                             <td>{{pgto.dataPagamento | date : 'dd/MM/yyyy'}}</td>
+                             <td>{{pgto.nossoNumero}}</td>
+                             <td>{{pgto.tipoPgto}}</td>
+                             <td>{{pgto.boleto.valorPagoBoleto | currency:'R$ '}}</td>
+                             <td>{{pgto.boleto.statusBoleto}}</td>       
+                           </ng-container>               
+                         </tr>                      
+                        </tbody>
+                     </table>
+                  </div>
+               </thead>
+            </table>
+         </div>
+      </div>
+   </div>
+ </section>
+ 

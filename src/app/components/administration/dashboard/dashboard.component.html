@@ -1,0 +1,32 @@
+<section class="content">
+  <div class="container-fluid">
+    <div class="form-row">
+      <div class="col-md-8">
+        <div class="chart-container" style="position: relative; padding: 10px">
+          <canvas id="donutChart-atividades"></canvas>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="chart-container" style="position: relative; padding: 10px">
+          <canvas id="donutChart-status"></canvas>
+        </div>
+      </div>
+      <div class="col-12">
+        <hr>
+      </div>
+      <div class="col-md-3 text-center"*ngFor="let atividade of listaAtividades">
+        <input type="text" class="knob" [value]="((atividade.qtd / totalAtividade) || 0) * 100" data-width="90" data-height="90" data-fgColor="#3c8dbc" readonly>
+        <div class="knob-label">{{atividade.descricao}}</div>
+      </div>
+      <!-- <div class="col-md-4" *ngFor="let atividade of listaAtividades">
+        <div class="info-box mb-2 bg-default">
+          <span class="info-box-icon"><i class="fa fa-cogs color-orange"></i></span>
+          <div class="info-box-content">
+            <span class="info-box-text">{{atividade.descricao}}</span>
+            <span class="info-box-number">{{atividade.qtd}}</span>
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</section>

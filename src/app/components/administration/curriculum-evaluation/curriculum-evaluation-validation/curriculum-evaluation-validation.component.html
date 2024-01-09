@@ -1,0 +1,112 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="col-md-12">
+      <h1>Avaliação curricular - Medicina #{{avaliacaoCurricular.codPsReqAnalise}}</h1>
+      <hr>
+    </div>
+  </div>
+</section>
+<section class="content">
+  <div class="container-fluid">
+    <form #formAvaliacaoCurricular="ngForm" name="formAvaliacaoCurricular"
+      (ngSubmit)="onSubmitStatusAprovacao(avaliacaoCurricular)">
+      <div class="form-row align-items-center">
+        <div class="form-group col-md-1">
+          <label for="codPsInscricao">Inscrição:</label>
+          <input class="form-control" id="codPsInscricao" name="codPsInscricao" [value]="inscricao.codPsInscricao"
+            disabled>
+        </div>
+        <div class="form-group col-md-5">
+          <label for="nome">Nome:</label>
+          <input class="form-control" id="nome" name="nome" [value]="inscricao.nome" disabled>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="cpf">CPF:</label>
+          <input class="form-control" id="cpf" name="cpf" [value]="inscricao.cpf" disabled>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="telefone">Telefone:</label>
+          <input class="form-control" id="telefone" name="telefone" [value]="inscricao.telefone" disabled>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="email">E-mail:</label>
+          <input class="form-control" id="email" name="email" [value]="inscricao.email" disabled>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="campus">Campus:</label>
+          <input class="form-control" id="campus" name="campus" [value]="inscricao.campus" disabled>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="modalidade">Modalidade:</label>
+          <input class="form-control" id="modalidade" name="modalidade" [value]="inscricao.processoSeletivo" disabled>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="turno">Turno:</label>
+          <input class="form-control" id="turno" name="turno" [value]="inscricao.turno" disabled>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="semestre">Período Letivo:</label>
+          <input class="form-control" id="semestre" name="semestre" [value]="inscricao.periodoLetivo" disabled>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="semestre">Qtd. Semestres:</label>
+          <input class="form-control" id="semestre" name="semestre" [value]="avaliacaoCurricular.qtdSemestres" disabled>
+        </div>
+        <div class="form-group col-md-10">
+          <label for="curso">Curso:</label>
+          <input class="form-control" id="curso" name="curso" [value]="inscricao.curso" disabled>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="semestre">Qtd. Reanalise:</label>
+          <input class="form-control" id="semestre" name="semestre" [value]="avaliacaoCurricular.qtdReanalise" disabled>
+        </div>
+        <div class="col-md-12">
+          <hr>
+        </div>
+        <div class="form-group col-md-1">
+          <label for="nota">Nota (Max:10,00):</label>
+          <input [disabled]="listaStatusAprovacao.length == 0 || !liberarCampos" class="form-control" type="text" id="nota" name="nota" (blur)="onBlurNota($event)" [ngModel]="avaliacaoCurricular.nota | number:'2.2-2'" mask="00,00">
+        </div>
+        <div class="form-group col-md-4">
+          <label for="statusAprovacao">Status:</label>
+          <select class="form-control" id="statusAprovacao" name="statusAprovacao"
+            [disabled]="listaStatusAprovacao.length == 0  || !liberarCampos" [(ngModel)]="statusAprovacao" >
+            <option *ngFor="let item of listaStatusAprovacao" [ngValue]="item.codPsStatusReq">{{item.descricao}}
+            </option>
+          </select>
+        </div>
+        <div class="form-group col-md-12" *ngIf="statusAprovacao == statusAprovacaoEnum.DocumentacaoInvalida || (statusAprovacao == statusAprovacaoEnum.Reprovado && liberarCampos) || statusAprovacao == statusAprovacaoEnum.AnaliseCoordenador">
+          <label for="comentario">Comentários:</label>
+          <textarea class="form-control" id="comentario" name="comentario" [(ngModel)]="avaliacaoCurricular.comentario" rows="3"></textarea>
+        </div>
+        <div class="offset-md-10 col-md-2 mb-2">
+          <button [disabled]="!liberarCampos" type="submit" class="btn btn-dark btn-block">Salvar</button>
+        </div>
+      </div>
+    </form>
+    <hr>
+    <div class="row">
+      <div class="col-sm-2" *ngFor="let arquivo of avaliacaoCurricular.psArquivos">
+        <img *ngIf="arquivo.nome.substring(arquivo.nome.length - 3).toLowerCase() == 'pdf'" src="assets/images/pdf.png"
+          class="img-fluid pointer mb-2" (click)="baixarArquivo(arquivo)" />
+        <img *ngIf="arquivo.nome.substring(arquivo.nome.length - 3).toLowerCase() != 'pdf' && arquivo.base64"
+          [src]="arquivo.base64" class="img-fluid pointer mb-2" (click)="baixarArquivo(arquivo)" />
+        <p>{{arquivo.nome}}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-12" *ngIf="avaliacaoCurricular?.psReqAnaliseComentario?.length > 0">
+        <label for="comentario">Comentários:</label>
+        <table class="table table-sm">
+          <tbody>
+            <tr *ngFor="let item of avaliacaoCurricular.psReqAnaliseComentario">
+              <td style="width: 15%;">{{item.recCreatedOn | date: 'dd/MM/yyyy HH:mm'}}</td>
+              <td style="width: 10%;">{{item.recCreatedBy}}</td>
+              <td>{{item.comentario}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,267 @@
+<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+  <li class="nav-item" *ngIf="AuthService.validateRole('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+    || AuthService.validateRoleFinanceiro('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+    || AuthService.validateRoleGestaoSecretaria('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')">
+    <a class="nav-link">
+      <i class="nav-icon fas fa-flag"></i>
+      <p>
+        Campanhas
+        <i class="right fas fa-angle-left"></i>
+      </p>
+    </a>
+    <ul class="nav nav-treeview">
+      <li class="nav-item">
+        <a [routerLink]="['/administrativo/campanha/ps-importacao']" routerLinkActive="active" class="nav-link">
+          <i class="nav-icon fas fa-chevron-right"></i>
+          <p>Importação de PS</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a [routerLink]="['/administrativo/campanha/ofertas-importacao']" routerLinkActive="active" class="nav-link">
+          <i class="nav-icon fas fa-chevron-right"></i>
+          <p>Importação de Ofertas</p>
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="!AuthService.validateRoleGestaoSecretaria('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')">
+        <a [routerLink]="['/administrativo/campanha/bolsas-importacao']" routerLinkActive="active" class="nav-link">
+          <i class="nav-icon fas fa-chevron-right"></i>
+          <p>Importação de Bolsas</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a [routerLink]="['/administrativo/campanha/processo-seletivo']" routerLinkActive="active" class="nav-link">
+          <i class="nav-icon fas fa-chevron-right"></i>
+          <p>Processo Seletivo</p>
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="!AuthService.validateRoleGestaoSecretaria('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')">
+        <a [routerLink]="['/administrativo/campanha/requisitos']" routerLinkActive="active" class="nav-link">
+          <i class="nav-icon fas fa-chevron-right"></i>
+          <p>Requisitos</p>
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="!AuthService.validateRoleGestaoSecretaria('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')">
+        <a [routerLink]="['/administrativo/campanha/planos']" routerLinkActive="active" class="nav-link">
+          <i class="nav-icon fas fa-chevron-right"></i>
+          <p>Planos</p>
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="!AuthService.validateRoleGestaoSecretaria('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')">
+        <a [routerLink]="['/administrativo/campanha/ofertas']" routerLinkActive="active" class="nav-link">
+          <i class="nav-icon fas fa-chevron-right"></i>
+          <p>Convênios</p>
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="!AuthService.validateRoleGestaoSecretaria('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')">
+        <a [routerLink]="['/administrativo/campanha/ofertas-polo']" routerLinkActive="active" class="nav-link">
+          <i class="nav-icon fas fa-chevron-right"></i>
+          <p>Convênios - Polo</p>
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="!AuthService.validateRoleGestaoSecretaria('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')">
+        <a [routerLink]="['/administrativo/campanha/plano-ofertas']" routerLinkActive="active" class="nav-link">
+          <i class="nav-icon fas fa-chevron-right"></i>
+          <p>Ofertas por Plano</p>
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="AuthService.validateRole('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')">
+        <a [routerLink]="['/administrativo/campanha/edicao-contrato']" routerLinkActive="active" class="nav-link">
+          <i class="nav-icon fas fa-chevron-right"></i>
+          <p>Edição de Contrato</p>
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="AuthService.validateRole('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+      || AuthService.validateRoleFinanceiro('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')">
+        <a [routerLink]="['/administrativo/campanha/alocacao-plano']" routerLinkActive="active" class="nav-link">
+          <i class="nav-icon fas fa-chevron-right"></i>
+          <p>Atribuição de Planos</p>
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="AuthService.validateRole('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+      || AuthService.validateRoleFinanceiro('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')">
+        <a [routerLink]="['/administrativo/campanha/teste-paulo']" routerLinkActive="active" class="nav-link">
+          <i class="nav-icon fas fa-chevron-right"></i>
+          <p>Consulta de Planos</p>
+        </a>
+      </li>
+    </ul>
+  </li>
+  <li class="nav-item has-treeview" *ngIf="AuthService.validateRole('MNGF_PERFIL_NUCLEO_ACAD')
+    || AuthService.validateRole('MNGF_PERFIL_NAP')
+    || AuthService.validateRole('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+    || AuthService.validateRoleFinanceiro('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')">
+    <a class="nav-link">
+      <i class="nav-icon fas fa-money-check-alt"></i>
+      <p>
+        Cobrança
+        <i class="right fas fa-angle-left"></i>
+      </p>
+    </a>
+    <ul class="nav nav-treeview">
+      <li class="nav-item">
+        <a [routerLink]="['/administrativo/cobranca/baixa-manual']" routerLinkActive="active" class="nav-link">
+          <i class="nav-icon fas fa-chevron-right"></i>
+          <p>Baixa Manual</p>
+        </a>
+      </li>
+    </ul>
+  </li>
+  <li class="nav-item has-treeview" *ngIf="AuthService.validateRole('MNGF_PERFIL_NUCLEO_ACAD')
+        || AuthService.validateRole('MNGF_PERFIL_NAP')
+        || AuthService.validateRole('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+        || AuthService.validateRoleAvaliacao('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+        || AuthService.validateRoleAnalise('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+        || AuthService.validateRoleAcademico('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+        || AuthService.validateRoleSecretaria('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+        || AuthService.validateRoleGestaoSecretaria('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+        || AuthService.validateRoleAuditoria('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+        || AuthService.validateRoleProva('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')">
+    <a class="nav-link">
+      <i class="nav-icon fas fa-project-diagram"></i>
+      <p>
+        Processo Seletivo
+        <i class="fas fa-angle-left right"></i>
+      </p>
+    </a>
+    <ul class="nav nav-treeview">
+      <li class="nav-item" *ngIf="AuthService.validateRole('MNGF_PERFIL_NUCLEO_ACAD')
+                || AuthService.validateRole('MNGF_PERFIL_NAP')
+                || AuthService.validateRole('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+                || AuthService.validateRoleAvaliacao('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+                || AuthService.validateRoleAnalise('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+                || AuthService.validateRoleSecretaria('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+                || AuthService.validateRoleGestaoSecretaria('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+                || AuthService.validateRoleAuditoria('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')">
+        <a [routerLink]=" [ '/administrativo/analise-curricular' ] " routerLinkActive=" active " class="
+                nav-link ">
+          <i class=" nav-icon fas fa-chevron-right "></i>
+          <p>Análise Curricular</p>
+        </a>
+      </li>
+
+      <li class="nav-item" *ngIf="AuthService.validateRole('MNGF_PERFIL_NUCLEO_ACAD')
+                || AuthService.validateRole('MNGF_PERFIL_NAP')
+                || AuthService.validateRole('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+                || AuthService.validateRoleAvaliacao('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+                || AuthService.validateRoleAnalise('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+                || AuthService.validateRoleSecretaria('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+                || AuthService.validateRoleGestaoSecretaria('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+                || AuthService.validateRoleAuditoria('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')">
+        <a [routerLink]="['/administrativo/avaliacao-curricular']" routerLinkActive="active" class="nav-link">
+          <i class="nav-icon fas fa-chevron-right"></i>
+          <p>Avaliação Curricular-Med.</p>
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="AuthService.validateRole('MNGF_PERFIL_NUCLEO_ACAD')
+                || AuthService.validateRole('MNGF_PERFIL_NAP')
+                || AuthService.validateRole('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+                || AuthService.validateRoleAvaliacao('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+                || AuthService.validateRoleAnalise('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+                || AuthService.validateRoleAcademico('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+                || AuthService.validateRoleSecretaria('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+                || AuthService.validateRoleGestaoSecretaria('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+                || AuthService.validateRoleAuditoria('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')">
+        <a [routerLink]="['/administrativo/analise-documento']" routerLinkActive="active" class="nav-link">
+          <i class="nav-icon fas fa-chevron-right"></i>
+          <p>Análise Documento</p>
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="AuthService.validateRole('MNGF_PERFIL_NUCLEO_ACAD')
+                || AuthService.validateRole('MNGF_PERFIL_NAP')
+                || AuthService.validateRole('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+                || AuthService.validateRoleAvaliacao('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+                || AuthService.validateRoleSecretaria('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+                || AuthService.validateRoleGestaoSecretaria('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+                || AuthService.validateRoleAuditoria('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+                || AuthService.validateRoleProva('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')">
+        <a [routerLink]="['/administrativo/provas']" routerLinkActive="active" class="nav-link">
+          <i class="nav-icon fas fa-chevron-right"></i>
+          <p>Provas</p>
+        </a>
+      </li>
+      <li class="nav-item" *ngIf="AuthService.validateRole('MNGF_PERFIL_NUCLEO_ACAD')
+                || AuthService.validateRole('MNGF_PERFIL_NAP')
+                || AuthService.validateRole('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')">
+        <a [routerLink]="['/administrativo/correcao-canvas']" routerLinkActive="active" class="nav-link">
+          <i class="nav-icon fas fa-chevron-right"></i>
+          <p>Correção Canvas</p>
+        </a>
+      </li>
+    </ul>
+  </li>
+  <li class="nav-item has-treeview" *ngIf="AuthService.validateRole('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+    || AuthService.validateRoleFinanceiro('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+    || AuthService.validateRoleAuditoria('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')">
+    <a class="nav-link">
+      <i class="nav-icon fas fa-file"></i>
+      <p>
+        Relatórios
+        <i class="fas fa-angle-left right"></i>
+      </p>
+    </a>
+    <ul class="nav nav-treeview">
+      <li class="nav-item">
+        <a [routerLink]="['/administrativo/relatorio/report']" routerLinkActive="active" class="nav-link">
+          <i class="nav-icon fas fa-chevron-right"></i>
+          <p>Auditoria</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a [routerLink]="['/administrativo/relatorio/report-geral']" routerLinkActive="active" class="nav-link">
+          <i class="nav-icon fas fa-chevron-right"></i>
+          <p>Geral</p>
+        </a>
+      </li>
+    </ul>
+  </li>
+  <li class="nav-item has-treeview" *ngIf="AuthService.validateRole('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+    || AuthService.validateRoleFinanceiro('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+    || AuthService.validateRoleAcademico('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')">
+    <a class="nav-link">
+      <i class="nav-icon fas fa-tachometer-alt"></i>
+      <p>
+        Dashboard
+        <i class="fas fa-angle-left right"></i>
+      </p>
+    </a>
+    <ul class="nav nav-treeview">
+      <li class="nav-item">
+        <a [routerLink]="['/administrativo/dashboard/home']" routerLinkActive="active" class="nav-link">
+          <i class="nav-icon fas fa-chevron-right"></i>
+          <p>Dashboard</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a [routerLink]="['/administrativo/dashboard/inscricoes']" routerLinkActive="active" class="nav-link">
+          <i class="nav-icon fas fa-chevron-right"></i>
+          <p>Inscrições</p>
+        </a>
+      </li>
+    </ul>
+  </li>
+  <li class="nav-item has-treeview" *ngIf=" AuthService.validateRole('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+                                        ||  AuthService.validateRoleAtendimento('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')
+                                        ||  AuthService.validateRoleAcessoUsuario('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')">
+    <a class="nav-link">
+      <i class="nav-icon fas fa-phone"></i>
+      <p>
+        Atendimento
+        <i class="fas fa-angle-left right"></i>
+      </p>
+    </a>
+    <ul class="nav nav-treeview">
+      <li *ngIf="!AuthService.validateRoleAcessoUsuario('GG_USERS_LIBERA_ADMIN_LOCAL_DESENV')" class="nav-item">
+        <a [routerLink]="['/administrativo/atendimento']" routerLinkActive="active" class="nav-link">
+          <i class="nav-icon fas fa-chevron-right"></i>
+          <p>Alteração Cadastral</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a [routerLink]="['/administrativo/acesso-candidato']" routerLinkActive="active" class="nav-link">
+          <i class="nav-icon fas fa-chevron-right"></i>
+          <p>Acesso painel candidato</p>
+        </a>
+      </li>
+    </ul>
+  </li>
+</ul>

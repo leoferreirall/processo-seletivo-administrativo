@@ -1,0 +1,129 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="col-md-12">
+      <h1>Ofertas por plano</h1>
+      <hr>
+    </div>
+  </div>
+</section>
+<section class="content">
+    <div class="container-fluid">
+      <form #formOfertaPlano="ngForm" name="formOfertaPlano" (ngSubmit)="onSubmitFormOfertaPlano(ofertaPlano)">
+        <div class="form-row">
+          <div class="form-group col-md-1">
+            <label for="codColigada">Coligada:</label>
+            <input class="form-control" id="codColigada" name="codColigada" readonly [value]="ofertaPlano.codColigada">
+          </div>
+          <div class="form-group col-md-3">
+            <label for="plano">Plano:</label>
+            <select class="form-control" id="plano" name="plano" [disabled]="listaPlanos.length == 0" [(ngModel)]="ofertaPlano.plano"
+              (change)="onChangePlano(ofertaPlano.plano)">
+              <option *ngFor="let item of listaPlanos" [ngValue]="item">{{item.nome}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="codTipoCurso">Tipo de curso:</label>
+            <input type="text" class="form-control" id="codTipoCurso" name="codTipoCurso" [(ngModel)]="ofertaPlano.descricaoTipoCurso" readonly>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="unidade">Unidade:</label>
+            <input type="text" class="form-control" id="unidade" name="unidade" [(ngModel)]="ofertaPlano.unidade" readonly>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="idCategoriaPs">Categoria:</label>
+            <input type="text" class="form-control" id="idCategoriaPs" name="idCategoriaPs" [(ngModel)]="ofertaPlano.categoria" readonly>
+          </div>
+          <div class="form-group col-md-2">
+            <label for="idPerlet">Período letivo:</label>
+            <input type="text" class="form-control" id="idPerlet" name="idPerlet" [(ngModel)]="ofertaPlano.descricaoPerLet" readonly>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="dtInicio">Data Inicial:</label>
+            <input type="date" class="form-control" id="dtInicio" name="dtInicio" [(ngModel)]="ofertaPlano.dtInicio" readonly>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="dtFim">Data Final:</label>
+            <input type="date" class="form-control" id="dtFim" name="dtFim" [(ngModel)]="ofertaPlano.dtFim" readonly>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="cursos">Curso:</label>
+            <select class="form-control" id="cursos" name="cursos" [disabled]="listaCursos.length == 0" [(ngModel)]="ofertaPlano.cursos"
+              (blur)="onBlurCurso(ofertaPlano)"
+              multiple>
+              <option (click)="onChangeSelect($event, listaCursos, 'cursos', 'codCurso')" id="0" [value]="0">Todos</option>
+              <option (click)="onChangeSelect($event, listaCursos, 'cursos', 'codCurso')" [id]="item.codCurso" *ngFor="let item of listaCursos" [ngValue]="item.codCurso">{{item.descricaoCurso}}</option>
+            </select>
+          </div>
+          <div class="col-md-12">
+            <hr>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="turnos">Turno:</label>
+            <select class="form-control" id="turnos" name="turnos" [disabled]="listaTurnos.length == 0" [(ngModel)]="ofertaPlano.turnos"
+              (blur)="onBlurTurno(ofertaPlano)" multiple>
+              <option (click)="onChangeSelect($event, listaTurnos, 'turnos', 'codTurno')" id="0" [value]="0">Todos
+              </option>
+              <option (click)="onChangeSelect($event, listaTurnos, 'turnos', 'codTurno')" [id]="item.codTurno"
+                *ngFor="let item of listaTurnos" [ngValue]="item.codTurno">{{item.descricaoTurno}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="formasIngresso">Forma de ingresso:</label>
+            <select class="form-control" id="formasIngresso" name="formasIngresso" [disabled]="listaFormaIngresso.length == 0" [(ngModel)]="ofertaPlano.formasIngresso"
+              (blur)="onBlurFormaIngresso(ofertaPlano)" multiple>
+              <option (click)="onChangeSelect($event, listaFormaIngresso, 'formasIngresso', 'codFormaIngresso')" id="0"
+                [value]="0">Todos</option>
+              <option (click)="onChangeSelect($event, listaFormaIngresso, 'formasIngresso', 'codFormaIngresso')"
+                [id]="item.codFormaIngresso" *ngFor="let item of listaFormaIngresso" [ngValue]="item.codFormaIngresso">
+                {{item.descricaoFormaIngresso}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="semestres">Semestre:</label>
+            <select class="form-control" id="semestres" name="semestres" [disabled]="listaSemestres.length == 0" [(ngModel)]="ofertaPlano.semestres"
+              (blur)="onBlurSemestre(ofertaPlano)" multiple>
+              <option (click)="onChangeSelect($event, listaSemestres, 'semestres', 'codSemestre')" id="0" [value]="0">
+                Todos</option>
+              <option (click)="onChangeSelect($event, listaSemestres, 'semestres', 'codSemestre')" [id]="item.codSemestre"
+                *ngFor="let item of listaSemestres" [ngValue]="item.codSemestre">{{item.codSemestre}}º Semestre</option>
+            </select>
+          </div>
+          <div class="col-md-12">
+            <hr>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="estados">Estado:</label>
+            <select class="form-control" id="estados" name="estados" [disabled]="listaEstados.length == 0" [(ngModel)]="ofertaPlano.estados"
+              (blur)="onBlurEstado(ofertaPlano)" multiple>
+              <option (click)="onChangeSelect($event, listaEstados, 'estados', 'codEstado')" id="0" [value]="0">Todos
+              </option>
+              <option (click)="onChangeSelect($event, listaEstados, 'estados', 'codEstado')" [id]="item.codEstado"
+                *ngFor="let item of listaEstados" [ngValue]="item.codEstado">{{item.codEstado}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="cidades">Cidade:</label>
+            <select class="form-control" id="cidades" name="cidades" [disabled]="listaCidades.length == 0" [(ngModel)]="ofertaPlano.cidades"
+              (blur)="onBlurCidade(ofertaPlano)" multiple>
+              <option (click)="onChangeSelect($event, listaCidades, 'cidades', 'codCidade')" id="0" [value]="0">Todos
+              </option>
+              <option (click)="onChangeSelect($event, listaCidades, 'cidades', 'codCidade')" [id]="item.codCidade"
+                *ngFor="let item of listaCidades" [ngValue]="item.codCidade">{{item.codCidade}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="polos">Polo:</label>
+            <select class="form-control" id="polos" name="polos" [disabled]="listaPolos.length == 0" [(ngModel)]="ofertaPlano.polos"
+              (blur)="onBlurPolo(ofertaPlano)" multiple>
+              <option (click)="onChangeSelect($event, listaPolos, 'polos', 'codPolo')" id="0" [value]="0">Todos</option>
+              <option (click)="onChangeSelect($event, listaPolos, 'polos', 'codPolo')" [id]="item.codPolo"
+                *ngFor="let item of listaPolos" [ngValue]="item.codPolo">{{item.descricaoPolo}}</option>
+            </select>
+          </div>
+          <div class="offset-lg-10 col-md-2">
+            <button type="submit" class="btn btn-dark btn-block">Salvar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>

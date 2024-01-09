@@ -1,0 +1,52 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row">
+      <div [ngClass]="{'col-md-12' : !visualizaoAluno, 'col-md-10' : visualizaoAluno}">
+        <h1>
+          Acesso ao painel do candidato
+        </h1>
+      </div>
+      <div class="col-md-2" *ngIf="visualizaoAluno">
+        <button (click)="sairVisualizacao()" type="button" class="btn btn-dark btn-block">Cancelar visualização do
+          aluno</button>
+      </div>
+      <hr />
+    </div>
+  </div>
+</section>
+<section class="content">
+  <div class="container-fluid" *ngIf="!visualizaoAluno">
+    <div class="col-md-12">
+      <p>Digite o CPF do aluno e em seguida clique no botão visualização do aluno para acessar o painel do processo
+        seletivo</p>
+      <p><b>OBS: Os acessos seram limitados</b></p>
+    </div>
+    <div class="col-md-12">
+      <form [formGroup]="form">
+        <div class="form-row">
+          <div class="form-group col-md-2 mb-2">
+            <label class="form-control-label" for="cpf">CPF:</label>
+            <input formControlName="cpf" [ngClass]="{'is-invalid': f.cpf.errors && f.cpf.touched}" class="form-control"
+              name="cpf" [mask]="cpfmask">
+            <div class="invalid-feedback">
+              O campo CPF está inválido
+            </div>
+          </div>
+          <div class="form-group col-md-2 mb-2">
+            <label class="invisible">Pesquisar</label>
+            <button (click)="registrarAcessoToscana()" type="button" class="btn btn-dark btn-block"
+              [disabled]="!form.valid">Visualização do aluno</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="col-md-12" *ngIf="visualizaoAluno">
+    <div style="padding-bottom:56.25%; position:relative; display:block; width: 100%">
+      <iframe width="100%" height="100%" [src]="linkPSCompleto" frameborder="0" allowfullscreen=""
+        style="position:absolute; top:0; left: 0">
+      </iframe>
+    </div>
+  </div>
+</section>

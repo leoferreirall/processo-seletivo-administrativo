@@ -1,0 +1,83 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="col-md-12">
+      <h1>Plano de campanha</h1>
+      <hr>
+    </div>
+  </div>
+</section>
+<section class="content">
+  <div class="row">    
+    <div class="offset-9 col">
+      <button class="btn btn-dark btn-block" [routerLink]="['create']">
+        <i class="fas fa-plus"></i>
+        Novo
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <hr>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-striped table-bordered table-sm row-border hover">
+        <thead>
+          <tr>
+            <th>Cod. Plano</th>
+            <th>Descrição</th>
+            <th>Coligada</th>
+            <th>Tipo Curso</th>
+            <th>Período letivo</th>
+            <th>Parcela</th>
+            <th>Data Início</th>
+            <th>Data Fim</th>
+            <th>Tipo Plano</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of data">
+            <td>{{item.codPsPlano}}</td>
+            <td>{{item.nome}}</td>
+            <td>{{item.codColigada}}</td>
+            <td>{{item.descricaoTipoCurso}}</td>
+            <td>{{item.descricaoPerLet}}</td>
+            <td>{{item.parcelaLan}}</td>
+            <td>{{item.dtInicio | date : 'dd/MM/yyyy'}}</td>
+            <td>{{item.dtFim | date : 'dd/MM/yyyy'}}</td>
+            <td>{{item.codPsTipoPlano == 2 ? 'Privado' : 'Público'}}</td>
+            <td>{{item.status ? 'Ativo' : 'Inativo'}}</td>
+            <td class="text-right py-0 align-middle">
+              <div class="btn-group btn-group-sm">
+                <button class="btn btn-info" [routerLink]="['edit', item.codPsPlano]"><i class="fas fa-edit"></i></button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<div class="modal fade" id="modalDeletarPlano" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Deletar plano</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Deseja realmente deletar o plano: {{plano.nome}}?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-danger" (click)="deletarPlano(plano)">Deletar</button>
+      </div>
+    </div>
+  </div>
+</div>

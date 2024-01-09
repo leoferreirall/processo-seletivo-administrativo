@@ -1,0 +1,147 @@
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="col-md-12">
+            <h1>Atribuição de Planos por Inscrição Aprovada </h1>
+            <hr />
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <form #formPs="ngForm" name="formPs" (ngSubmit)="onSubmitPesquisar(atrib)">
+            <div class="form-row">
+                <div class="form-group col-md-1">
+                    <label for="codColigada">Coligada:</label>
+                    <input class="form-control" id="codColigada" name="codColigada" readonly [value]="atrib.codColigada" />
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="codTipoCurso">Tipo de curso:</label>
+                    <input type="text" class="form-control" id="codTipoCurso" name="codTipoCurso" [(ngModel)]="atrib.descricaoTipoCurso" readonly />
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="unidade">Unidade:</label>
+                    <input type="text" class="form-control" id="unidade" name="unidade" [(ngModel)]="atrib.unidade" readonly />
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="idCategoriaPs">Categoria:</label>
+                    <input type="text" class="form-control" id="idCategoriaPs" name="idCategoriaPs" [(ngModel)]="atrib.categoria" readonly />
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="idPerlet">Período letivo:</label>
+                    <input type="text" class="form-control" id="idPerlet" name="idPerlet" [(ngModel)]="atrib.descricaoPerLet" readonly />
+                </div>
+
+                <div class="col-md-12">
+                    <hr />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="form-group col-md-12">
+                        <label for="plano">Plano Privado:</label>
+                        <div class="input-group mb-3">                            
+                            <select class="form-control" id="plano" name="plano" [disabled]="listaPlanos.length == 0" [(ngModel)]="atrib.plano" (change)="onChangePlano(atrib.plano)">
+                                <option *ngFor="let item of listaPlanos" [ngValue]="item">{{item.nome}}</option>
+                            </select>
+                            <div class="input-group-prepend">
+                                <button type="button" [disabled]="atrib.plano == null" class="btn btn-dark" data-dismiss="modal" (click)="onView(atrib.plano)"><i class="right fas fa-eye"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label for="formaIngresso">Forma de Ingresso:</label>
+                        <select class="form-control" id="formaIngresso" name="formaIngresso" [disabled]="listaFormaIngresso.length == 0" [(ngModel)]="atrib.codFormaIngresso">
+                            <option *ngFor="let item of listaFormaIngresso" [ngValue]="item.codFormaIngresso">{{item.descricaoFormaIngresso}}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <div class="form-group col-md-12">
+                        <label for="cursos">Curso:</label>
+                        <select style="height: 120px;" class="form-control" id="cursos" name="cursos" [disabled]="listaCursos.length == 0" [(ngModel)]="atrib.cursos"  (blur)="onChangeCurso(atrib.cursos)"  multiple>
+                            <option (click)="onChangeSelect($event, listaCursos, 'cursos', 'codCurso')" id="0" [value]="0">Todos</option>
+                            <option (click)="onChangeSelect($event, listaCursos, 'cursos', 'codCurso')" [id]="item.codCurso" *ngFor="let item of listaCursos" [ngValue]="item.codCurso">{{item.descricaoCurso}}</option>
+                        </select>
+                    </div>
+                </div> 
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <div class="form-group col-md-12">
+                      <label for="nome">Nome:</label>
+                      <input class="form-control" id="nome" name="nome" [(ngModel)]="atrib.nome">
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <div class="form-group col-md-12">
+                      <label for="cpf">CPF Candidato:</label>
+                      <input [mask]="mask" (keyup)="cpfcnpjmask()" class="form-control" id="cpf" name="cpf" [(ngModel)]="atrib.cpf">
+                    </div>
+                </div>
+            </div>
+
+            <div class="offset-lg-10 col-md-2">
+                <button type="submit" class="btn btn-dark btn-block">Pesquisar</button>
+            </div>
+        </form>
+    </div>
+</section>
+<section class="content">
+    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-striped table-bordered table-sm row-border hover">
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" [disabled]="data.length == 0" [(ngModel)]="masterSelected" name="masterSelected" (change)="checkUncheckAll()" />
+                        </th>
+                        <th>Insc.</th>
+                        <th>Nome</th>
+                     <!--   <th>P. Contrato</th> -->
+                        <th>P. Atribuido</th>
+                        <th>CPF</th>
+                        <th>Curso</th>
+                        <th>Forma</th>
+                        <th>Turno</th>
+                        <th>Tipo Hab.</th>                    
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of data">
+                        <td class="text-left" width="5%"><input type="checkbox" [(ngModel)]="item.isSelected" name="selected" value="{{item.codPsInscricao}}" (change)="isAllSelected()" /> {{item.value}}</td>
+                        <td class="text-left" width="6%">{{item.codPsInscricao}}</td>
+                        <td class="text-left" width="28%">{{item.nome}}</td>
+                    <!--<td class="text-left" width="5%">{{item.codPsPlano}}</td> Opção oculta provisóriamente por solicitação de chamado -->  
+                        <td class="text-left" width="5%">{{item.codPsPlanoPrivado}}</td>
+                        <td class="text-left" width="10%">{{item.cpf | CPF}}</td>
+                        <td class="text-left" width="24%">{{item.curso}}</td>
+                        <td class="text-left" width="10%">{{item.formaIngresso}}</td>
+                        <td class="text-left" width="7%">{{item.turno}}</td>
+                        <td class="text-left" width="10%">{{item.tipoHabilitacao}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<section class="content">
+    <hr>
+    <div class="container-fluid">
+      <form #formPs="ngForm" name="formPs" (ngSubmit)="onSubmitAtribuirPlano(atrib)">
+        <div class="form-row">    
+          <div class="offset-lg-8 col-md-2">
+            <button type="button" class="btn btn-danger btn-block" (click)="onSubmitRemoverPlano(atrib)">Remover Plano Privado</button> 
+          </div>    
+          <div class="col-md-2">
+            <button type="button" class="btn btn-dark btn-block" (click)="onSubmitAtribuirPlano(atrib)">Atribuir ao Plano Privado</button> 
+          </div>          
+        </div>
+      </form>
+    </div>
+</section> 

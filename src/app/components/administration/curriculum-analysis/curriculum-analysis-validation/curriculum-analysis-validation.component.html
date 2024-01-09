@@ -1,0 +1,158 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="col-md-12">
+      <h1>Análise curricular #{{analiseCurricular.codPsReqAnalise}}</h1>
+      <hr>
+    </div>
+  </div>
+</section>
+<section class="content">
+  <div class="container-fluid">
+    <form #formAnaliseCurricular="ngForm" name="formAnaliseCurricular"
+      (ngSubmit)="onSubmitStatusAprovacao(analiseCurricular)">
+      <div class="form-row align-items-center">
+        <div class="form-group col-md-1">
+          <label for="codPsInscricao">Inscrição:</label>
+          <input class="form-control" id="codPsInscricao" name="codPsInscricao" [value]="inscricao.codPsInscricao"
+            disabled>
+        </div>
+        <div class="form-group col-md-5">
+          <label for="nome">Nome:</label>
+          <input class="form-control" id="nome" name="nome" [value]="inscricao.nome" disabled>
+        </div>
+        <div class="form-group col-md-5">
+          <label for="nome">Nome Social:</label>
+          <input class="form-control" id="nome" name="nome" [value]="inscricao.nomeSocial" disabled>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="cpf">CPF:</label>
+          <input class="form-control" id="cpf" name="cpf" [value]="inscricao.cpf" disabled>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="telefone">Telefone:</label>
+          <input class="form-control" id="telefone" name="telefone" [value]="inscricao.telefone" disabled>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="email">E-mail:</label>
+          <input class="form-control" id="email" name="email" [value]="inscricao.email" disabled>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="campus">Campus:</label>
+          <input class="form-control" id="campus" name="campus" [value]="inscricao.campus" disabled>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="modalidade">Modalidade:</label>
+          <input class="form-control" id="modalidade" name="modalidade" [value]="inscricao.processoSeletivo" disabled>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="turno">Turno:</label>
+          <input class="form-control" id="turno" name="turno" [value]="inscricao.turno" disabled>
+        </div>
+        <div class="form-group col-md-3">
+          <label for="semestre">Período Letivo:</label>
+          <input class="form-control" id="semestre" name="semestre" [value]="inscricao.periodoLetivo" disabled>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="semestre">Qtd. Semestres:</label>
+          <input class="form-control" id="semestre" name="semestre" [value]="analiseCurricular.qtdSemestres" disabled>
+        </div>
+        <div class="form-group col-md-10">
+          <label for="curso">Curso:</label>
+          <input class="form-control" id="curso" name="curso" [value]="inscricao.curso" disabled>
+        </div>
+        <div class="form-group col-md-2">
+          <label for="semestre">Qtd. Reanalise:</label>
+          <input class="form-control" id="semestre" name="semestre" [value]="analiseCurricular.qtdReanalise" disabled>
+        </div>
+        <div class="col-md-12">
+          <hr>
+        </div>
+        <div class="form-group col-md-4">
+          <label for="statusAprovacao">Status:</label>
+          <select class="form-control" id="statusAprovacao" name="statusAprovacao"
+            [disabled]="listaStatusAprovacao.length == 0 || !liberarCampos" [(ngModel)]="statusAprovacao">
+            <option *ngFor="let item of listaStatusAprovacao" [ngValue]="item.codPsStatusReq">{{item.descricao}}
+            </option>
+          </select>
+        </div>
+        <div class="form-group col-md-12" *ngIf="statusAprovacao == statusAprovacaoEnum.DocumentacaoInvalida || statusAprovacao == statusAprovacaoEnum.IndeferidoOutros || statusAprovacao == statusAprovacaoEnum.AnaliseCoordenador">
+          <label for="comentario">Comentários:</label>
+          <textarea class="form-control" id="comentario" name="comentario" [(ngModel)]="analiseCurricular.comentario" rows="3"></textarea>
+        </div>
+        <div class="offset-md-10 col-md-2 mb-2">
+          <button [disabled]="!liberarCampos" type="submit" class="btn btn-dark btn-block">Salvar status</button>
+        </div>
+      </div>
+    </form>
+    <hr>
+    <div *ngIf="analiseCurricular.codPsStatusReq == statusAprovacaoEnum.AprovacaoCandidato">
+      <form #formHabilitacao="ngForm" name="formHabilitacao"
+        (ngSubmit)="files.length > 0 && analiseCurricular.instituicao && periodoIngresso && onSubmitCriarHabilitacao()">
+        <div class="form-row align-items-center">
+          <div class="form-group col-md-12">
+            <label for="instituicao">Instituição de origem:</label>
+            <select class="form-control" id="instituicao" name="instituicao" [disabled]="listaInstituicoes.length == 0"
+              [(ngModel)]="analiseCurricular.instituicao">
+              <option *ngFor="let item of listaInstituicoes" [ngValue]="item">{{item}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="codGrade">Matriz:</label>
+            <select class="form-control" id="codGrade" name="codGrade" [disabled]="listaGrade.length == 0"
+              [(ngModel)]="codGrade" (change)="onChangeGrade(inscricao.codPsInscricao, codGrade)">
+              <option *ngFor="let item of listaGrade" [ngValue]="item.codGrade">{{item.grade}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-4">
+            <label for="periodoIngresso">Período de ingresso:</label>
+            <select class="form-control" id="periodoIngresso" name="periodoIngresso"
+              [disabled]="listaPeriodoIngresso.length == 0" [(ngModel)]="periodoIngresso">
+              <option *ngFor="let item of listaPeriodoIngresso" [ngValue]="item" [disabled]="!item.codPlanoPgto">
+                {{item.idHabilitacaoFilial}} - {{item.codPeriodo}} - {{item.codPlanoPgto ? item.codPlanoPgto : 'Plano
+                não cadastrado'}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="files">Arquivos:</label>
+            <div class="custom-file">
+              <input type="file" multiple class="custom-file-input" id="files" (change)="onChangeFile($event)"
+                accept="image/jpeg,image/gif,image/png,application/pdf">
+              <label class="custom-file-label" for="files" id="file-label">Selecione um ou mais arquivos</label>
+            </div>
+          </div>
+          <div class="form-group col-md-1" *ngIf="analiseCurricular.idCategoriaPs == 5 && analiseCurricular.codPsFormaIngressoDominio == 1">
+            <label for="nota">Nota (Max:10,00):</label>
+           <input class="form-control" type="text" id="nota" name="nota" (blur)="onBlur($event)" [ngModel]="analiseCurricular.nota | number:'2.2-2'" mask="00,00">
+          </div>
+          <div class="offset-md-10 col-md-2 mb-2">
+            <button type="submit" class="btn btn-dark btn-block">Enviar habilitação</button>
+          </div>
+        </div>
+      </form>
+      <hr>
+    </div>
+    <div class="row">
+      <div class="col-sm-2" *ngFor="let arquivo of analiseCurricular.psArquivos">
+        <img *ngIf="arquivo.nome.substring(arquivo.nome.length - 3).toLowerCase() == 'pdf'" src="assets/images/pdf.png"
+          class="img-fluid pointer mb-2" (click)="baixarArquivo(arquivo)" />
+        <img *ngIf="arquivo.nome.substring(arquivo.nome.length - 3).toLowerCase() != 'pdf' && arquivo.base64"
+          [src]="arquivo.base64" class="img-fluid pointer mb-2" (click)="baixarArquivo(arquivo)" />
+        <p>{{arquivo.nome}}</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-12" *ngIf="analiseCurricular?.psReqAnaliseComentario?.length > 0">
+        <label for="comentario">Comentários:</label>
+        <table class="table table-sm">
+          <tbody>
+            <tr *ngFor="let item of analiseCurricular.psReqAnaliseComentario">
+              <td style="width: 15%;">{{item.recCreatedOn | date: 'dd/MM/yyyy HH:mm'}}</td>
+              <td style="width: 10%;">{{item.recCreatedBy}}</td>
+              <td>{{item.comentario}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,37 @@
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="col-md-12">
+      <h1>Edição de Contrato</h1>
+      <hr>
+    </div>
+  </div>
+</section>
+<section class="content">
+    <div class="container-fluid">
+        <form #formDocumento="ngForm" name="formDocumento" (ngSubmit)="onSubmitForm(documento)">
+        <div class="form-row">
+
+            <div class="form-group col-md-3">
+                <label for="dtInicioVigencia">Data Inicial:</label>
+                <input type="date" class="form-control" id="dtInicioVigencia" name="dtInicioVigencia" [(ngModel)]="documento.dtInicioVigencia" readonly> 
+            </div>
+            <div class="form-group col-md-3">
+                <label for="dtFimVigencia">Data Final:</label>
+                <input type="date" class="form-control" id="dtFimVigencia" name="dtFimVigencia" [(ngModel)]="documento.dtFimVigencia" readonly>
+            </div>
+
+            <div class="offset-lg-4 col-md-2">
+                <br/>
+                <button type="submit" class="btn btn-dark btn-block">Salvar</button>
+            </div>
+            
+            <quill-editor [(ngModel)]="documento.texto" [ngModelOptions]="{standalone:true}" [modules]="quillConfig" placeholder="Escreva aqui!"></quill-editor>
+            <br/><br/><br/><br/>
+        </div>
+
+      </form>
+    </div>
+</section>
+
+
+

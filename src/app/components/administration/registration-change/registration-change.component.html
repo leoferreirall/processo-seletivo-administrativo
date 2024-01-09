@@ -1,0 +1,139 @@
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>
+                    Atendimento
+                </h1>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12" *ngIf="!atendimentoIniciado">
+                <p>Pesquise o candidato pelo CPF, e confirme os dados antes de iniciar o atendimento.</p>
+            </div>
+            <div class="offset-md-9 col-md-3" *ngIf="atendimentoIniciado">
+                <button type="button" class="btn btn-success btn-block" (click)="finalizarAtendimento()">Finalizar
+                    Atendimento</button>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="content">
+    <div class="container-fluid" *ngIf="!filtroAtivo">
+        <div class="col-md-12">
+            <form #formReport="ngForm" name="formReport" (ngSubmit)="pesquisar(cpf.value)">
+                <div class="form-row">
+                    <div class="form-group col-md-2 mb-2">
+                        <label class="form-control-label" for="cpf">CPF:</label>
+                        <input class="form-control" id="cpf" name="cpf" [mask]="cpfmask" #cpf>
+                    </div>
+                    <div class="form-group col-md-2 mb-2">
+                        <label class="invisible">Pesquisar</label>
+                        <button type="submit" class="btn btn-dark btn-block">Pesquisar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="container-fluid" *ngIf="filtroAtivo">
+        <div class="col-md-12">
+            <form #formReport="ngForm" name="formReport">
+                <div class="form-row">
+                    <div class="form-group col-md-6 mb-2">
+                        <label class="form-control-label" for="nome">Nome:</label>
+                        <input class="form-control" id="nome" name="nome" [(ngModel)]="infoContato.nome" disabled>
+                    </div>
+                    <div class="form-group col-md-2 mb-2">
+                        <label class="form-control-label" for="cpf">CPF:</label>
+                        <input class="form-control" id="cpf" name="cpf" [mask]="cpfmask" maxlength="14" [(ngModel)]="infoContato.cpf" disabled>
+                    </div>
+                    <div class="form-group col-md-2 mb-2">
+                        <label class="form-control-label" for="nascimento">Data de Nascimento:</label>
+                        <input class="form-control" id="nascimento" name="nascimento" mask="00/00/0000" [ngModel]="infoContato.dataNascimentoSemFormatacao" disabled>
+                    </div>
+                </div>
+                <div class="form-row" *ngIf="infoContato.cadastroValidado">
+                    <div class="form-group col-md-6 mb-2">
+                        <label class="form-control-label" for="protocolo">Protocolo do Atendimento:</label>
+                        <input class="form-control" id="protocolo" name="protocolo" [(ngModel)]="infoContato.protocolo">
+                    </div>
+                </div>
+                <div class="form-row" *ngIf="!infoContato.cadastroValidado">
+                    <div class="form-group offset-md-6 col-md-2 mb-2">
+                        <label class="invisible">Cancelar</label>
+                        <button type="submit" class="btn btn-dark btn-block" (click)="cancelarAtendimento()">Cancelar</button>
+                    </div>
+                    <div class="form-group col-md-2 mb-2">
+                        <label class="invisible">Iniciar Atendimento</label>
+                        <button type="submit" class="btn btn-dark btn-block" (click)="iniciarAtendimento()">Iniciar
+                            Atendimento</button>
+                    </div>
+                </div>
+
+                <ng-template [ngIf]="infoContato.cadastroValidado">
+                    <hr>
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <p>Está opção permite a edição do e-mail e telefone cadastrados do candidato e só deve ser feita mediante solicitação do mesmo.
+                            </p>
+                        </div>
+                        <div class="form-group col-md-4 mb-2">
+                            <label class="form-control-label" for="email">E-mail:</label>
+                            <input class="form-control" id="email" name="email" [(ngModel)]="infoContato.email">
+                        </div>
+                        <div class="form-group col-md-2 mb-2">
+                            <label class="form-control-label" for="celular">Celular:</label>
+                            <input class="form-control" id="celular" name="celular" [mask]="celmask" [(ngModel)]="infoContato.celular">
+                        </div>
+                        <div class="form-group col-md-2 mb-2">
+                            <label class="form-control-label" for="telefone">Telefone:</label>
+                            <input class="form-control" id="telefone" name="telefone" [mask]="telmask" [(ngModel)]="infoContato.telefone">
+                        </div>
+                        <div class="form-group col-md-2 mb-2">
+                            <label class="invisible">Salvar</label>
+                            <button type="submit" class="btn btn-dark btn-block" (click)="alterarCadastro()">Salvar</button>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template [ngIf]="infoContato.cadastroValidado">
+                    <hr>
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <p>Está opção irá gerar um link e enviar ao candidato através do e-mail e telefone cadastrados, o usuário deverá acessar para criar uma nova senha.
+                            </p>
+                        </div>
+                        <div class="form-group col-md-2 mb-2">
+                            <button type="submit" class="btn btn-dark btn-block" (click)="reenviarSenha()">Reenviar
+                                Senha</button>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template [ngIf]="infoContato.cadastroValidado">
+                    <hr>
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <p>Está opção gera uma nova senha no padrão <strong>Fam@ + os 4 primeiros digitos do CPF do candidato</strong>.
+                            </p>
+                        </div>
+                        <div class="form-group col-md-2 mb-2">
+                            <button type="submit" class="btn btn-dark btn-block" (click)="enviarSenhaPadrao()">Gerar Senha Padrão</button>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template [ngIf]="infoContato.cadastroValidado">
+                    <hr>
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <p>Está opção permite o desbloqueio do usuário de acesso do candidato, mantendo a senha já cadastrada.
+                            </p>
+                        </div>
+                        <div class="form-group col-md-2 mb-2">
+                            <button type="submit" class="btn btn-dark btn-block" (click)="desbloquearAcesso()">Desbloquear Acesso</button>
+                        </div>
+                    </div>
+                </ng-template>
+            </form>
+        </div>
+    </div>
+</section>

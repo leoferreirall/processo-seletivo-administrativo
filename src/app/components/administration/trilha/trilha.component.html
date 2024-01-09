@@ -1,0 +1,134 @@
+<!--
+<section class="content-header">
+<div class="container-fluid">
+    <div class="col-md-12">
+    <h1>Relatório Auditoria</h1>
+    <hr>
+    </div>
+</div>
+</section> -->
+<section class="content-header" id="ExportarPdf" #ExportarPdf>
+  <div class="row">
+    <div class="col-md-12">
+      <img src="assets/images/BotaoPdf.png" (click)="exportaExcel()" *ngIf="this.btnPdfVisible" class="botaoExportaPdf" id="btnExportaPdf" />
+      <table class="table table-striped table-bordered table-sm row-border hover">
+        <thead>
+          <tr style="background-color: antiquewhite;">
+            <th width="50">Cod.</th>
+            <th>Nome</th>
+            <th width="150">CPF</th>
+            <th width="150">RG</th>
+            <th width="200">Data Nascimento</th>
+            <th width="100">Sexo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background-color: white">
+            <td>{{usuario.codPsUsuario}}</td>
+            <td>{{usuario.nome}}</td>
+            <td>{{usuario.cpf}}</td>
+            <td>{{usuario.rg}}</td>
+            <td>{{usuario.dtNascimento | date : 'dd/MM/yyyy'}}</td>
+            <td>{{usuario.sexo == 'M' ? 'Masculino' : usuario.sexo == 'F' ? 'Feminino' : ''}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!--Historico--><div *ngFor="let item of trilhas">
+        <table class="table table-sm table-bordered">
+          <thead>
+
+          </thead>
+          <tbody>
+            <tr style="background-color: antiquewhite;">
+              <th>Acesso</th>
+              <th [attr.colspan]="item.auditHistorico.length + 100">Token</th>
+            </tr>
+            <tr>
+              <th [attr.rowspan]="item.auditHistorico.length + 100" style="width: 20px; vertical-align: middle; text-align: center;">{{item.codPsAudit}}</th>
+              <th [attr.colspan]="7" style="font-size: 10px; font-weight: 300;">{{item.token}}</th>
+            </tr>
+            <tr style="font-weight: 500; background-color: antiquewhite;">
+              <th width="200px">SO</th>
+              <th width="100px">Dispositivo</th>
+              <th width="100px">IP</th>
+              <th width="300px">Navegador</th>
+              <th width="600px">Versão Navegador</th>
+              <th width="200px">Data</th>
+            </tr>
+            <tr style="font-weight: 100;">
+              <td style="font-weight: 100;">{{item.so}}</td>
+              <th style="font-weight: 100;">{{item.dispositivo}}</th>
+              <th style="font-weight: 100;">{{item.ip}}</th>
+              <td style="font-weight: 100;">{{item.navegador}}</td>
+              <th style="font-weight: 100;">{{item.versaoNavegador}}</th>
+              <th style="font-weight: 100;">{{item.recCreatedOn | date : 'dd/MM/yyyy HH:mm:ss'}}</th>
+            </tr>
+            <tr style="font-weight: 500; background-color: antiquewhite;">
+              <th>Tabela</th>
+              <th>Código</th>
+              <th>Atividade</th>
+              <th>Método</th>
+              <th>Descrição</th>
+              <th>Data</th>
+            </tr>
+            <!--Atividade-->
+            <tr *ngFor="let atividade of item.auditHistorico" style="font-weight: 100;">
+              <td>{{atividade.tabela}}</td>
+              <td>
+                <button type="button" class="btn btn-default" data-toggle="modal" data-target="#staticBackdrop" (click)="openModal(atividade.codpsaudithistorico)">
+                  {{atividade.pk}}
+                </button>
+              </td>
+              <td [ngSwitch]="atividade.tipo">
+                <a *ngSwitchCase="1">Inclusão</a>
+                <a *ngSwitchCase="2">Atualização</a>
+                <a *ngSwitchCase="3">Pesquisa</a>
+                <a *ngSwitchCase="4">Exclusão</a>
+              </td>
+              <td>{{atividade.metodo}}</td>
+              <td>{{atividade.descricao}}</td>
+              <td>{{atividade.recCreatedOn | date : 'dd/MM/yyyy HH:mm:ss'}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div *ngIf="!de">
+        <div class="modal-header">
+          <h3>De:</h3>
+        </div>
+        <div class="modal-body">
+          <div class="row" style="word-wrap: break-word; width: 100%;">
+            <div class="col-md-12">
+              {{de}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="modal-header">
+          <h3 *ngIf="de">Conteúdo:</h3>
+          <h3 *ngIf="!de">Para:</h3>
+        </div>
+        <div class="modal-body">
+          <div class="row" style="word-wrap: break-word; width: 100%;">
+            <div class="col-md-12">
+              {{para}}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+      </div>
+    </div>
+  </div>
+</div>
